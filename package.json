@@ -1,0 +1,35 @@
+{
+  "name": "bloodquest",
+  "version": "1.0.0",
+  "description": "Software to find compatible blood donor for the recipient's request.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js -e js,hbs,env",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OmkarPh/BloodQuest.git"
+  },
+  "author": "Omkar Phansopkar",
+  "license": "GPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/OmkarPh/BloodQuest/issues"
+  },
+  "homepage": "https://github.com/OmkarPh/BloodQuest#readme",
+  "dependencies": {
+    "@sendgrid/mail": "^7.2.6",
+    "bcryptjs": "^2.4.3",
+    "connect-slashes": "^1.4.0",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "hbs": "^4.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.6.2",
+    "mongoose": "^5.10.7",
+    "multer": "^1.4.2",
+    "request": "^2.88.2"
+  }
+}
