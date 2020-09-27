@@ -18,4 +18,4 @@ const mailto = (toAddress, subject, body = "Hope you're day is going good. Donat
     });
 }
 
-module.exports = {mailto};
+module.exports = mailto;

@@ -66,7 +66,6 @@ mongoose.set('useFindAndModify', false);        // Overcoming mongoose deprecati
 // Preparing routers
 const authorisation = require('./Routes/authorisation');
 const {mailto} = require('./Modules/mailer');
-
 app.use(authorisation);
 
 app.get("/", (req, res) => {

@@ -1,9 +1,8 @@
 const jwt = require('jsonwebtoken');
-const User = require('../../Models/User')
+const User = require('./../../Models/User');
 
-const auth = (messageForLoginRequirements)=>{
-    return async (req,res,next)=>{
-        
+module.exports = () =>{
+    return async(req,res,next)=>{
         try{
             const token = req.cookies.token;
             const decoded = jwt.verify(token,process.env.JWT_TOKEN_KEY);
@@ -12,14 +11,13 @@ const auth = (messageForLoginRequirements)=>{
                 throw new Error();
             req.token = token;
             req.user = user;
-            next();
-        }catch(error){
-            if(messageForLoginRequirements)
-                res.status(307).redirect('/login?message='+messageForLoginRequirements);
+            console.log(req.user);
+            if(req.user.email == "omkarphansopkar@gmail.com")
+                next();
             else
-                res.status(307).redirect('/sign');
+                throw new Error();
+        }catch(error){
+            res.status(307).redirect('/sign');
         }
     }
 }
-
-module.exports = auth;
