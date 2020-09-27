@@ -49,6 +49,35 @@ app.use(maintenance, personalise());
 app.listen(port, ()=> console.log("Server started properly."));
 
 
+
+// Setting the MongoDB
+mongoose.connect(
+  process.env.MONGOOSE_SRV_BQ_DB,
+  {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useUnifiedTopology:true
+  }
+).catch((err)=>console.log(err));
+mongoose.set('useFindAndModify', false);        // Overcoming mongoose deprecation
+
+
+
+// Preparing routers
+const authorisation = require('./Routes/authorisation');
+const {mailto} = require('./Modules/mailer');
+
+app.use(authorisation);
+
 app.get("/", (req, res) => {
-  res.render('index.hbs');
+  res.render('');
+});
+
+
+
+
+
+
+app.get('*', (req,res)=>{
+  res.send("<center><h1>Page not found !</h1></center>")
 });
