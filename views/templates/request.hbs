@@ -1,0 +1,31 @@
+<div>
+    <form action="/demandBlood" method="POST">
+        <select name="bloodType">
+            <option>A+</option>
+            <option>B+</option>
+            <option>O+</option>
+            <option>O-</option>
+        </select><br>
+        <select name="self">
+            <option value="0">Myself</option>
+            <option value="1">Relative or friend</option>
+        </select><br>
+        <select name="state">
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Goa">Goa</option>
+        </select>
+        <select name="district">
+            <option>Mumbai</option>
+            <option>Thane</option>
+            <option>Ratnagiri</option>
+        </select><br>
+        <textarea placeholder="Description" rows="8"></textarea>
+        <br>
+        Contact details:
+        <input type="email" placeholder="email"><br>
+        <input name="phone" type="number" placeholder="phone">
+        <input name="whatsapp" type="number" placeholder="whatsapp"><br>
+        <input type="submit">
+    </form>
+</div>
