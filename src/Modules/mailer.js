@@ -18,4 +18,19 @@ const mailto = (toAddress, subject, body = "Hope you're day is going good. Donat
     });
 }
 
-module.exports = mailto;
+const requestBlood = async (donors, demandeeDetails) => {
+    
+    donors.people.forEach(donor => {
+        let subject = `Blood request from ${demandeeDetails.name}`
+
+        let body = `Hi ${donor.firstName} \n ${demandeeDetails.description} \n Our client, ${demandeeDetails.name} is in need of blood of type ${demandeeDetails.bloodType} \n Your blood is compatible to be donated to him, Please take a step and make someone's day :)`
+
+        // mailto(donor.email, subject, body);
+    });
+    
+    console.log("If you see this, mailer is not enabled !");
+
+}
+
+
+module.exports = {mailto, requestBlood};
