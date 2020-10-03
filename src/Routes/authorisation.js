@@ -18,8 +18,11 @@ const picMulter = multer({
 
 
 // Signup and login page 
-router.get("/sign", (req,res)=>{
-    res.render('signLog.hbs')
+router.get("/login", (req,res)=>{
+  res.render('signLog.hbs')
+})
+router.get("/signup", (req,res)=>{
+    res.render('signup.hbs')
 })
 
 // Signup API

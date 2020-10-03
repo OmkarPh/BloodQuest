@@ -1,0 +1,47 @@
+<h1>Sign up</h1>
+<form action="/auth/signup" method="POST" enctype="multipart/form-data">
+    <input name="email" type="email" placeholder="email">
+    <input name="password" type="password" placeholder="password"><br>
+    <input name="age" type="number" placeholder="age">
+    <select name="sex">
+        <option value="0">Male</option>
+        <option value="1">Female</option>
+        <option value="2">Other</option>
+    </select><br>
+    <select name="state">
+        <option value="Maharashtra">Maharashtra</option>
+        <option value="Karnataka">Karnataka</option>
+        <option value="Goa">Goa</option>
+    </select>
+    <select name="district">
+        <option value="Mumbai">Mumbai</option>
+        <option value="Thane">Thane</option>
+        <option value="Ratnagiri">Ratnagiri</option>
+    </select>
+    <select name="country" placeholder="country">
+        <option value="India">India</option>
+    </select><br>
+    <select name="bloodType">
+        <option value="0">A+</option>
+        <option value="2">B+</option>
+        <option value="4">O+</option>
+    </select><br>
+    <input name="firstName" type="text" placeholder="firstName">
+    <input name="lastName" type="text" placeholder="lastName"><br>
+    <input name="diseaseCount" type="number" placeholder="diseaseCount">
+    <input name="phone" type="number" placeholder="phone">
+    <input name="whatsapp" type="number" placeholder="whatsapp"><br>
+    <input name="pin" type="number" placeholder="Area pin code">
+    <input name="localAddress" type="text" placeholder="localAddress"><br>
+    Profile pic: <input type="file" name="pic" accept="image/*" >
+    <input type="submit" value="Sign Up">
+</form>
+
+
+<h1>Login</h1>
+    <form action="/auth/login" method="POST">
+        <input name="email" type="email">
+        <input name="password" type="password">
+        <input type="submit">
+    </form>
+</form>
