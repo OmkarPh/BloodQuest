@@ -1,59 +1,47 @@
-<head>
-    <link rel="stylesheet" href="css/signLog.css">
-</head>
-    
-    <div class="signupContainer">
-        <form action="/auth/signup" method="POST" enctype="multipart/form-data"></form>
-        <div class="signupPageHeading">
-            Create Account
-        </div>
-        <input class="firstName" name="firstName" type="text" placeholder="firstName">
-        <input class="lastName" name="lastName" type="text" placeholder="lastName"><br>
-        <input class="email" name="email" type="email" placeholder="email">
-            <input class="password" name="password" type="password" placeholder="password"><br>
-            <input class="age" name="age" type="number" placeholder="age">
-            <select class="sex" name="sex">
-                <option value="0">Male</option>
-                <option value="1">Female</option>
-                <option value="2">Other</option>
-            </select>
-            <select class="bloodType" name="bloodType">
-                <option value="0">A+</option>
-                <option value="2">B+</option>
-                <option value="4">O+</option>
-            </select><br>
-            <select class="state" name="state">
-                <option value="Maharashtra">Maharashtra</option>
-                <option value="Karnataka">Karnataka</option>
-                <option value="Goa">Goa</option>
-            </select>
-            <select class="district" name="district">
-                <option value="Mumbai">Mumbai</option>
-                <option value="Thane">Thane</option>
-                <option value="Ratnagiri">Ratnagiri</option>
-            </select>
-            <select class="country" name="country" placeholder="country">
-                <option value="India">India</option>
-            </select><br>
-            
-            <input class="diseaseCount" name="diseaseCount" type="number" placeholder="diseaseCount">
-            <input class="phone" name="phone" type="number" placeholder="phone">
-            <input class="whatsapp" name="whatsapp" type="number" placeholder="whatsapp">
-            <textarea class="localAddress" name="localAddress" type="textArea" placeholder="localAddress"></textarea><br>
-            <input class="pin" name="pin" type="number" placeholder="Area pin code"><br>    
-            <div class="pic">Profile pic: <input type="file" name="pic" accept="image/*" ></div>
-            <input class="submitBtn" type="submit" value="Sign Up">
-        </form>
-    </div>
-  
-    <div class="loginContainer">
-        <div class="loginPageHeading">Welcome Back!</div>
-        <div class="slogan">All heroes don't wear cape, some donate Blood.. 🩸</div>
-            <form action="/auth/login" method="POST">
-                <input class="name" name="email" type="email" placeholder="name"><br>
-                <input class="pass" name="password" type="password" placeholder="password">
-                <input class="loginBtn" type="submit">
-                <button class="forgotPass">Forgot password ?</button>
-            </form>
-        </form>
-    </div>
+<h1>Sign up</h1>
+<form action="/auth/signup" method="POST" enctype="multipart/form-data">
+    <input name="email" type="email" placeholder="email">
+    <input name="password" type="password" placeholder="password"><br>
+    <input name="age" type="number" placeholder="age">
+    <select name="sex">
+        <option value="0">Male</option>
+        <option value="1">Female</option>
+        <option value="2">Other</option>
+    </select><br>
+    <select name="state">
+        <option value="Maharashtra">Maharashtra</option>
+        <option value="Karnataka">Karnataka</option>
+        <option value="Goa">Goa</option>
+    </select>
+    <select name="district">
+        <option value="Mumbai">Mumbai</option>
+        <option value="Thane">Thane</option>
+        <option value="Ratnagiri">Ratnagiri</option>
+    </select>
+    <select name="country" placeholder="country">
+        <option value="India">India</option>
+    </select><br>
+    <select name="bloodType">
+        <option value="0">A+</option>
+        <option value="2">B+</option>
+        <option value="4">O+</option>
+    </select><br>
+    <input name="firstName" type="text" placeholder="firstName">
+    <input name="lastName" type="text" placeholder="lastName"><br>
+    <input name="diseaseCount" type="number" placeholder="diseaseCount">
+    <input name="phone" type="number" placeholder="phone">
+    <input name="whatsapp" type="number" placeholder="whatsapp"><br>
+    <input name="pin" type="number" placeholder="Area pin code">
+    <input name="localAddress" type="text" placeholder="localAddress"><br>
+    Profile pic: <input type="file" name="pic" accept="image/*" >
+    <input type="submit" value="Sign Up">
+</form>
+
+
+<h1>Login</h1>
+    <form action="/auth/login" method="POST">
+        <input name="email" type="email">
+        <input name="password" type="password">
+        <input type="submit">
+    </form>
+</form>
