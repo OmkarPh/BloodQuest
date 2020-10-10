@@ -58,4 +58,40 @@
 
 
 
+let allowed = ["whatsapp","diseaseString"]
+function validateForm(){
+    let formElements = document.getElementById("profileForm").elements;
+    let done = true;
+    // 1 -> profile pic     length-1  -> Submit button
+    for(let i=1; i<formElements.length-1; i++){
+        let field = formElements[i];
+        if(field.value == "" || !field.value || !field){
+            if(!allowed.includes(field.name)){
+                field.style.borderBottom = "2px solid red";
+                done = false;
+            }
+        }
+    }
+    if(!done)
+        document.getElementById("warning").style.visibility = "visible";
+    else
+    document.getElementById("warning").style.visibility = "hidden";
 
+    return done;
+}
+
+let setZero = ["diseaseCount"];
+(function prepareForm(){
+    let formElements = document.getElementById("profileForm").elements;
+    for(let i=1; i<formElements.length-1; i++){
+        let field = formElements[i];
+        if(setZero.includes(field.name))
+            field.value = 0;
+    }
+})();
+
+
+function handleImageUpload(event){
+    let dpShow = document.getElementById("showDP");
+    dpShow.src = URL.createObjectURL(event.target.files[0]);
+}

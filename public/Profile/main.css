@@ -25,7 +25,7 @@
 }
 .profileEditor textarea:focus, .profileEditor input:focus {
   background-color: rgb(255, 249, 241);
-  border-bottom: 2px solid #2e00fc;
+  border-bottom: 3px solid #2e00fc;
 }
 .shorterInputs{
   max-width: 90px;
@@ -37,7 +37,7 @@
 .partition{
   margin-bottom: 18px;
 }
-.partition input, .partition select{
+.partition span{
   margin-right: 25px;
 }
 .wildcards{
@@ -57,7 +57,7 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 800px) {
   .profileEditor{
     max-width: 99%;
     width: 99%;

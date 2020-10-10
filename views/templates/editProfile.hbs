@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Signup</title>
+	<title>Edit profile</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -25,61 +25,71 @@
 	
 	<div class="limiter">
 		<div class="container-login100">
-                <h4 style="color: rgb(145, 255, 0);">{{message}}</h4>
-				<form class="profileEditor" action="/auth/saveProfile" method="POST">
+                <h4 style="color: rgb(145, 255, 0);">{{message}}</h4><br>
+				<form onsubmit="return validateForm()" class="profileEditor" action="/auth/saveProfile" method="POST" id="profileForm" enctype="multipart/form-data">
 					<div style="float: left; padding-bottom: 20px">
-						<img src="images/tempProfile.png" style="width: 200px; height:200px border-radius: 20px">
+						<img src="/myDP" style="width: 200px; height:200px border-radius: 20px" id="showDP">
 						<br>
-						<input type="file" style="font-size: small; border: 0px" placeholder="Upload profile pic" class="wildcards">
+						<input type="file" style="font-size: small; border: 0px" placeholder="Upload profile pic" class="wildcards" name="newProfilePicture" id="pic" onchange="handleImageUpload(event)" accept="image/*">
 					</div>
 					<div>
-						<h4 id="mailDisplay">{{email}}</h4><br>
+						<h4 id="mailDisplay"><u>Email: {{email}}</u></h4>
+						<span id="warning" style="visibility: hidden; color: red; float: right;">* Complete all the necessary fields</span>
+						<br>
 					</div>
 					<div class="partition">
 						<input placeholder="First name" type="text" name="firstName"> 
 						<input placeholder="Last name"  type="text" name="lastName">
 					</div>
 					<div class="partition">
-						Age: <input type="number" class="shorterInputs" min="1" max="150" name="age">
-						Sex: <select class="shorterInputs" name="sex">
+						<span>Age: <input type="number" class="shorterInputs" min="1" max="150" name="age"></span>
+						<span>Sex: <select class="shorterInputs" name="sex">
 								<option value="0">Male</option>
 								<option value="1">Female</option>
 								<option value="2">Other</option>
 							</select>
-						BloodType: <select class="shorterInputs" name="bloodType">
-							<option value="0">A+</option>
-							<option value="1">A-</option>
-							<option value="2">B+</option>
-						</select><br>
+						</span>
+						<span>BloodType: <select class="shorterInputs" name="bloodType">
+								<option value="0">A+</option>
+								<option value="1">A-</option>
+								<option value="2">B+</option>
+							</select><br>
+						</span>
 					</div>
 					<div class="partition">
-						<i class="fa fa-phone" aria-hidden="true"></i><input type="number" placeholder="Phone No." name="phone">
-						<i class="fa fa-whatsapp" aria-hidden="true"></i><input type="number" placeholder="Whatsapp No." name="whatsapp">
+						<span><i class="fa fa-phone" aria-hidden="true"></i><input type="number" placeholder="Phone No." name="phone"></span>
+						<span><i class="fa fa-whatsapp" aria-hidden="true"></i><input type="number" placeholder="Whatsapp No." name="whatsapp"></span>
 					</div>
 					<div class="partition">
-						<span>Country: </span><select class="shorterInputs" name="country">
-							<option>India</option>
-						</select>
-						<span>State: </span><select class="state" name="state">
-							<option>Maharashtra</option>
-							<option>Karnataka</option>
-							<option>Goa</option>
-						</select>
-						<span>District:</span><select class="district" name="district">
-							<option>Mumbai</option>
-							<option>Thane</option>
-							<option>Ratnagiri</option>
-						</select>
+						<span>Country:<select class="shorterInputs" name="country">
+								<option>India</option>
+							</select> 
+						</span>
+						<span>State:<select class="state" name="state">
+								<option>Maharashtra</option>
+								<option>Karnataka</option>
+								<option>Goa</option>
+							</select>
+						</span>
+						<span>District:<select class="district" name="district">
+								<option>Mumbai</option>
+								<option>Thane</option>
+								<option>Ratnagiri</option>
+							</select>
+						</span>
 					</div>
 					<div class="partition">
 						<input type="text" style="width: 700px;" placeholder="Local address" class="bigFields" name="localAddress">
 						<input type="number" placeholder="Pin code" name="pin">
 					</div>
 					<div class="partition">
-						No. of Notable Diseases/Deficiency: <input type="number" class="shorterInputs" name="diseaseCount">
+						<span>No. of Notable Diseases/Deficiency: <input type="number" class="shorterInputs" name="diseaseCount">
+						</span>
 						<input type="text" style="width: 90%;" placeholder="Diseases separated by commas" class="bigFields" name="diseaseString">
 					</div>
-					<button type="submit" style="margin: auto; padding: 10px; background-color: aquamarine;">Update Profile</button>
+					<center><button type="submit" 
+					style="margin: auto; padding: 10px; background-color: aquamarine; border-radius: 5px;">
+					Update Profile</button></center>
 				</form>
 		</div>
 	</div>
