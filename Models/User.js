@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
     },
     age:{
         type: Number,
-        required:true
+        default:''
     },
     bloodType:{
         type: Number,
@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
     },
     firstName:{
         type: String,
-        required:true
+        default:''
     },
     lastName:{
         type: String,

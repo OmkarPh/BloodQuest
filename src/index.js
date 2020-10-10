@@ -78,6 +78,9 @@ app.get("/", (req, res) => {
 
 
 
+app.get('/pageNotFound', (req,res)=>{
+  res.send("<center><h1>Page not found !</h1></center>")
+});
 app.get('*', (req,res)=>{
   res.send("<center><h1>Page not found !</h1></center>")
 });

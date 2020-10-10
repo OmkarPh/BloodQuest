@@ -1,0 +1,6 @@
+@media (max-width: 1080px) {
+    #loginInstead{
+        display: block;
+        margin-top: 40px;
+    }
+}

@@ -10,16 +10,23 @@ const auth = (messageForLoginRequirements)=>{
             let user = await User.findOne({_id: decoded._id, 'tokens.token':token});
             if(!user)
                 throw new Error();
+            
+            // This condition is true only if default values are set, i.e. profile not completed
+            if(user.bloodType == -1)
+                throw new Error("Profile not set yet");
+
             req.token = token;
             req.user = user;
             next();
         }catch(error){
+            if(error.message == "Profile not set yet")
+                return res.status(303).redirect('/editProfile');
             if(messageForLoginRequirements)
-                res.status(307).redirect('/login?message='+messageForLoginRequirements);
-            else
-                res.status(307).redirect('/sign');
+                return res.status(307).redirect('/login?message='+messageForLoginRequirements);
+            res.status(307).redirect('/login');
         }
     }
 }
+
 
 module.exports = auth;
