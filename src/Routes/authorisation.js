@@ -11,10 +11,10 @@ const District = require('./../../Models/District');
 const {confirmEmail} = require('./../Modules/mailer');
 const jwt = require('jsonwebtoken');
 const path = require('path');
-const fs = require('fs');
 
 const stringToArrayConversions = ['age','sex','bloodType','diseaseCount','phone','whatsapp','pin'];
-
+let bloodTypes = ["A+","A-","B+","B-","O+","O-","AB+","AB-"];
+let sexes = ["Male", "Femaile", "Other"];
 
 const picMulter = multer({
   limits:1000000
@@ -64,7 +64,7 @@ router.get('/auth/verify', async (req,res)=>{
 
     res.send('Confirmed the email, <a href="/login">login here</a>');
 
-    preUser.findByIdAndDelete(initUser._id);
+    preUser.findByIdAndDelete(initUser._id, ()=>{});
   }catch(error){
     if(error.code == 11000)
       return res.send('Email already confirmed! <a href="/login">login here</a>');
@@ -73,20 +73,21 @@ router.get('/auth/verify', async (req,res)=>{
   }
 })
 router.get("/editProfile", auth({dontRedirect: true}), async(req,res)=>{
-  // DON'T USE auth() middleware for this, it will cause a recursive infinite loop, since auth() again redirects here for incompleted profiles, so manually parse and find users
   try{
     if(!req.user)
-      throw new Error("Something really wrong happened!");
-    res.render("editProfile.hbs",{message:"Complete your profile first !",email: req.user.email});
+      throw new Error("Something really wrong happened in editProfile page router!");
+    let message = req.query.message ? req.query.message : "Edit profile";
+    req.user.sex = 1;
+    res.render("editProfile.hbs",{message, user: req.user});
   }catch(error){
-      console.log(error);
       res.status(307).redirect('/login');
   }
 
 });
 
-// @TODO Modify req.user as per req.body, don't give default profile pic to mongoose, let it be empty, take care of not required fields 
+
 router.post("/auth/saveProfile", auth({dontRedirect: true}), picMulter.single('newProfilePicture'), async(req,res)=>{
+
   stringToArrayConversions.forEach(key => req.body[key] = parseInt(req.body[key]));
   req.body.address={
     country: req.body.country,
@@ -95,39 +96,59 @@ router.post("/auth/saveProfile", auth({dontRedirect: true}), picMulter.single('n
     pin: req.body.pin,
     localAddress: req.body.localAddress
   };
+
+  let isDistrictModified = req.user.address.district !== req.body.address.district;
+  let previousDistrict = req.user.address.district;
+  let isBloodModified = req.user.bloodType !== req.body.bloodType;
+  let previousBlood = req.user.bloodType;
     try{
+      // Updating user as per new data
+      for(key in req.body)
+        if(req.body[key] !== "")
+          req.user[key] = req.body[key];
 
-      console.log(req.user)
-      console.log(req.body);
-      if(!req.file)
-        console.log("No new profile");
-      
-      // req.file.buffer = await sharp(req.file.buffer).resize(256,256).jpeg({
-      //         quality: 100,
-      //         chromaSubsampling: '4:4:4'
-      //       }).toBuffer();
-      //       let pic = new ProfilePic({pic:req.file.buffer});
-      //       await pic.save();
-      //       newUser.profilePicID = pic._id;
-      //       await newUser.save();
-      //       console.log("Created user ", newUser.firstName, newUser.email);
-      //       res.cookie('token',token);
-      //       res.redirect('/me');
-        
-      //       let district = await District.findOne({name: req.body.district});
-      //       district.bloods[req.body.bloodType].people.push(newUser._id);
-      //       district.save();
+      // Updating profilePic if any
+      if(req.file){
+        // Delete old profile pic in async
+        if(req.user.profilePicID && req.user.profilePicID !== "")
+          ProfilePic.findByIdAndDelete(req.user.profilePicID, ()=>{});
 
-      // let district = await District.findOne({name: req.body.district});
-      // district.bloods[req.body.bloodType].people.push(newUser._id);
-      // district.save();
+        // Add new profile pic
+        req.file.buffer = await sharp(req.file.buffer).resize(256,256).jpeg({
+                quality: 100,
+                chromaSubsampling: '4:4:4'
+              }).toBuffer();
+        let pic = new ProfilePic({pic:req.file.buffer});
+        await pic.save();
+        req.user.profilePicID = pic._id;
+      }
 
-      res.send("Saved");
+      await req.user.save();
+      console.log("Updated user ", req.user.firstName, req.user.email);
+      res.redirect('/me');
+  
+      // Update blood&district relationship if modified
+      if(isDistrictModified || isBloodModified){
+        // Add user to new district and/or bloodType
+        let district = await District.findOne({name: req.user.address.district});
+        district.bloods[req.user.bloodType].people.push(req.user._id);
+        district.save();
+
+        // Remove user from existing district and/or bloodType
+        if(previousDistrict && previousDistrict !== ""){
+          let prevDistrictDB = await District.findOne({name: previousDistrict});
+          prevDistrictDB.bloods[previousBlood].people.pull(req.user._id);
+          prevDistrictDB.save();
+        }
+      }
     }catch(error){
       console.log(error)
-        res.status(307).redirect('/login');
+      if(!res.headersSent) res.status(500).send("Something went wrong 500");
+      console.log('Something went really wrong !');
     }
 });
+
+
 
 router.post("/auth/login", async (req,res)=>{
   try{
@@ -136,8 +157,10 @@ router.post("/auth/login", async (req,res)=>{
     res.cookie('token',token);
     res.redirect('/me');
   }catch(error){
-    console.log(error);
-    res.send('Unable to login');
+    if(error.message == "No account found for this email !")
+      res.send('No account found, <a href="/signup">signup instead</a>');
+    else
+      res.send('Unable to login');
   }
 });
 
@@ -149,7 +172,8 @@ router.post("/auth/login", async (req,res)=>{
 
 
 router.get("/me", auth(), async (req, res)=>{
-    res.render('profile.hbs', {data:req.user});
+    res.render('profile.hbs', {data:req.user, blood: bloodTypes[req.user.bloodType],
+      sex: sexes[req.user.sex]});
 });
 
 router.get("/myDP", auth({dontRedirect: true}), async(req,res)=>{

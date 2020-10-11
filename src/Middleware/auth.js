@@ -21,8 +21,8 @@ const auth = (options)=>{
             next();
         }catch(error){
             if(error.message == "Profile not set yet")
-                return res.status(303).redirect('/editProfile');
-            if(messageForLoginRequirements)
+                return res.status(303).redirect('/editProfile?message=Complete your profile first !');
+            if(options.messageForLoginRequirements)
                 return res.status(307).redirect('/login?message='+messageForLoginRequirements);
             res.status(307).redirect('/login');
         }

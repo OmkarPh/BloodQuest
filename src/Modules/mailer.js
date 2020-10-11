@@ -28,7 +28,6 @@ const confirmEmail = async(email, verificationToken)=>{
         let subject = "Verify your account at Blood Quest";
 
         let body = `Verify your account at Blood Quest using this link: \n ${process.env.BASE_URL}/auth/verify?token=${verificationToken}`;
-        console.log(email, body);
         await mailto(email, subject, body);
 
     }catch(error){
