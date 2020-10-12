@@ -16,12 +16,5 @@ const stateSchema = new mongoose.Schema({
 
 const State = new mongoose.model('State',stateSchema);
 
-// let maha = new State({
-//     stateName:"Maharashtra",
-//     districts:[
-//         {districtName:"Mumbai", districtID:"5f70808a1e48e705045e9a8d"}
-//     ]
-// })
-// maha.save();
 
 module.exports = State;

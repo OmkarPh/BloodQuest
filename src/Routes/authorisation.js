@@ -71,14 +71,16 @@ router.get('/auth/verify', async (req,res)=>{
     console.log(error);
     return res.redirect('/pageNotFound');
   }
-})
+});
+
+
 router.get("/editProfile", auth({dontRedirect: true}), async(req,res)=>{
   try{
     if(!req.user)
       throw new Error("Something really wrong happened in editProfile page router!");
     let message = req.query.message ? req.query.message : "Edit profile";
     req.user.sex = 1;
-    res.render("editProfile.hbs",{message, user: req.user});
+    res.render("editProfile.hbs",{message, user: req.user, diseaseString: req.user.diseases.join(", ")});
   }catch(error){
       res.status(307).redirect('/login');
   }
@@ -96,6 +98,7 @@ router.post("/auth/saveProfile", auth({dontRedirect: true}), picMulter.single('n
     pin: req.body.pin,
     localAddress: req.body.localAddress
   };
+  req.body.diseases = req.body.diseaseString.split(",").map(val => val.trim());; 
 
   let isDistrictModified = req.user.address.district !== req.body.address.district;
   let previousDistrict = req.user.address.district;
@@ -130,13 +133,13 @@ router.post("/auth/saveProfile", auth({dontRedirect: true}), picMulter.single('n
       // Update blood&district relationship if modified
       if(isDistrictModified || isBloodModified){
         // Add user to new district and/or bloodType
-        let district = await District.findOne({name: req.user.address.district});
+        let district = await District.findDistrict(req.user.address.district);
         district.bloods[req.user.bloodType].people.push(req.user._id);
         district.save();
 
         // Remove user from existing district and/or bloodType
         if(previousDistrict && previousDistrict !== ""){
-          let prevDistrictDB = await District.findOne({name: previousDistrict});
+          let prevDistrictDB = await District.findDistrict(previousDistrict);
           prevDistrictDB.bloods[previousBlood].people.pull(req.user._id);
           prevDistrictDB.save();
         }
@@ -173,7 +176,7 @@ router.post("/auth/login", async (req,res)=>{
 
 router.get("/me", auth(), async (req, res)=>{
     res.render('profile.hbs', {data:req.user, blood: bloodTypes[req.user.bloodType],
-      sex: sexes[req.user.sex]});
+      sex: sexes[req.user.sex], diseaseString: req.user.diseases.join(", ")});
 });
 
 router.get("/myDP", auth({dontRedirect: true}), async(req,res)=>{
