@@ -1,4 +1,5 @@
-const sgMail = require('@sendgrid/mail')
+const request = require('request');
+const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SEND_GRID_KEY);
 
 const defaultSubject = "Blood quest admin here !";
@@ -22,6 +23,25 @@ const mailto = async (toAddress, subject, body = defaultBody) =>{
 }
 
 
+const contactMessage = async(email, name, body) =>{
+    try{
+        let subjectForMail = `From ${name}(${email}) -BloodQuest contact form`;
+        let wpMessage = "From: " + name + 
+                    "\n Email: " + email + 
+                    "\n\n " + body;
+        let whatsappUrl = "https://api.callmebot.com/whatsapp.php?phone="+process.env.MY_PHONE+"&text="+wpMessage+"&apikey="+process.env.MSG_KEY;
+
+        request.get({url: whatsappUrl, proxy: ''}, (error, response)=>{
+            if(error)
+                throw new Error("Couldn't send whatsapp message!");
+            console.log(response.statusCode,response.statusMessage);
+        });
+        mailto(process.env.MY_MAIL_FOR_CONTACT, subjectForMail, body, ()=>{});
+    }catch(error){
+        console.log("Error in contact me",error);
+    }
+}
+// contactMessage("omkarpha@gmail.com", "Random person", "testing body");
 
 const confirmEmail = async(email, verificationToken)=>{
     try{
@@ -51,4 +71,4 @@ const requestBlood = async (donors, demandeeDetails) => {
 }
 
 
-module.exports = {mailto, requestBlood, confirmEmail};
+module.exports = {mailto, requestBlood, confirmEmail, contactMessage};

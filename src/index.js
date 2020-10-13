@@ -23,6 +23,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const slashes = require("connect-slashes");       // To remove or add trailing slash at end of request url
 
+
 // Personal Middlewares
 const auth = require('./Middleware/auth.js');   // Use as per requirement
 const maintenance = require('./Middleware/maintenance.js');     // Applies to all routes and prevents access while maintenance
@@ -62,16 +63,25 @@ mongoose.connect(
 mongoose.set('useFindAndModify', false);        // Overcoming mongoose deprecation
 
 
+// Preparing modules
+const {mailer, contactMessage} = require('./Modules/mailer');
+
+
 
 // Preparing routers
 const authorisation = require('./Routes/authorisation');
 const demand = require('./Routes/demand');
-const {mailto} = require('./Modules/mailer');
 app.use(authorisation, demand);
+
+
 
 app.get("/", (req, res) => {
   res.render('');
 });
+app.post("/contact", async(req,res)=>{
+  contactMessage(req.body.email, req.body.name, req.body.message, ()=>console.log("Sent"));
+  res.status(200).send("success");
+})
 
 
 
