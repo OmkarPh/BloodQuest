@@ -76,7 +76,10 @@ app.use(authorisation, demand);
 
 
 app.get("/", (req, res) => {
-  res.render('');
+  let personalisationDetails = {};
+  if(req.isPersonalised)
+    personalisationDetails = {loggedIn: true, name: req.user.firstName, email: req.user.email };
+  res.render('', personalisationDetails);
 });
 app.post("/contact", async(req,res)=>{
   contactMessage(req.body.email, req.body.name, req.body.message, ()=>console.log("Sent"));

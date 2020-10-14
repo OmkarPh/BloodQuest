@@ -1,32 +1,159 @@
-<div>
-    <form action="/demandBlood" method="POST">
-        <input type="text" placeholder="Name" name="name">
-        <select name="bloodType">
-            <option>A+</option>
-            <option>B+</option>
-            <option>O+</option>
-            <option>O-</option>
-        </select><br>
-        <select name="self">
-            <option value="0">Myself</option>
-            <option value="1">Relative or friend</option>
-        </select><br>
-        <select name="state">
-            <option value="Maharashtra">Maharashtra</option>
-            <option value="Karnataka">Karnataka</option>
-            <option value="Goa">Goa</option>
-        </select>
-        <select name="district">
-            <option>Mumbai</option>
-            <option>Thane</option>
-            <option>Ratnagiri</option>
-        </select><br>
-        <input type="text" placeholder="description" name="description">
-        <br>
-        Contact details:
-        <input type="email" placeholder="email"><br>
-        <input name="phone" type="number" placeholder="phone">
-        <input name="whatsapp" type="number" placeholder="whatsapp"><br>
-        <input type="submit">
-    </form>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- HTML Meta Tags -->
+        <!-- SEO Meta Tags -->
+        <title>Blood Quest - Seamless way to link blood donors and needies </title>
+        <meta name="description" content="Blood Quest is an initiative to encourage blood donation and form a notified link between volunteers and patients in need of blood.">
+        <meta name="author" content="Omkar Phansopkar">
+
+        <!-- Google / Search Engine Tags -->
+        <meta itemprop="name" content="Blood Quest - Seamless way to link blood donors and needies ">
+        <meta itemprop="description" content="Blood Quest is an initiative to encourage blood donation and form a notified link between volunteers and patients in need of blood.">
+        <meta itemprop="image" content="https://bloodquest.herokuapp.com/logoMetaBigB.png">
+
+        <!-- Facebook Meta Tags -->
+        <meta property="og:url" content="https://bloodquest.herokuapp.com">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Blood Quest - Seamless way to link blood donors and needies ">
+        <meta property="og:description" content="Blood Quest is an initiative to encourage blood donation and form a notified link between volunteers and patients in need of blood.">
+        <meta property="og:image" content="https://bloodquest.herokuapp.com/images/logoMetaBigB.png">
+
+        <!-- Twitter Meta Tags -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Blood Quest - Seamless way to link blood donors and needies ">
+        <meta name="twitter:description" content="Blood Quest is an initiative to encourage blood donation and form a notified link between volunteers and patients in need of blood.">
+        <meta name="twitter:image" content="https://bloodquest.herokuapp.com/images/logoMetaBigB.png">
+
+
+
+    
+    <!-- Styles -->
+    {{>cssdependencies}}
+    <link href="css/swiper.css" rel="stylesheet">
+    <link href="css/magnific-popup.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="demand/styles.css" rel="stylesheet">
+	
+	<!-- Favicon  -->
+    <link rel="icon" href="images/logoFavicon.png">
+
+    <style type="text/css">
+        input:focus, input:hover{
+            outline:none;
+        }
+    </style>
+</head>
+<body data-spy="scroll" data-target=".fixed-top">
+    {{>header}}
+    <!-- Preloader -->
+	<div class="spinner-wrapper">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <!-- end of preloader -->
+    
+
+    <!-- Header -->
+    <header id="header" class="header">
+        <div class="header-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="text-container" style="margin-top: -55px">
+                            <h3><span class="turquoise" style="color: #ff0000;">Request blood from our volunteers. </span></h3>
+                            <p class="p-large">We will notify all eligible volunteers in your city.</p>
+                            <form action="/demandBlood" method="POST" id="demandForm">
+                                <input type="text" placeholder="Patient's name" name="name" value="{{firstName}} {{lastName}}" required><br>
+                                Patient:
+                                <select name="self">
+                                    <option value="0">Myself</option>
+                                    <option value="1">Relative or friend</option>
+                                </select>
+                                Blood type required:
+                                <select name="bloodType" data-blood="{{bloodType}}"></select><br>
+                                Address of hospital:
+                                <select name="state"></select>
+                                <select name="district" data-district="{{district}}"></select><br>
+                                <input type="text" placeholder="Hospital name & local address" name="address" class="longerInputs" required><br>
+                                <textarea placeholder="Description" class="longerInputs" name="description" style="resize: none; height:100px; width: 500px" required></textarea>
+                                <br>
+                                Contact details:
+                                <input name="email" type="email" placeholder="email" value="{{email}}" class="longerInputs" required><br>
+                                <input name="phone" type="number" placeholder="phone" value="{{phone}}" required>
+                                <input name="whatsapp" type="number" placeholder="whatsapp" value="{{whatsapp}}"><br>
+                                <button type="submit">Request</button>
+                            </form>
+                        </div> <!-- end of text-container -->
+                    </div> <!-- end of col -->
+                    <div class="col-lg-6" style="padding-top: 60px;">
+                        <div class="image-container">
+                            <img class="img-fluid" src="images/peopleNetwork.png" alt="alternative" id="donorImg">
+                        </div> <!-- end of image-container -->
+                    </div> <!-- end of col -->
+                </div> <!-- end of row -->
+            </div> <!-- end of container -->
+        </div> <!-- end of header-content -->
+    </header> <!-- end of header -->
+    <!-- end of header -->
+
+
+    <!-- Pricing -->
+    <div id="pricing" class="cards-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Can't donate blood due to Health issues?</h2>
+                    <p class="p-heading p-large">Support us financially, Your donations help maintenance of this tool and a portion of it goes to NGOs & blood bank managements
+                    <br><br>
+                    <a class="btn-solid-lg" href="/donateMoney">Donate now..</a>
+                    </p>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of cards-2 -->
+    <!-- end of pricing -->
+
+
+
+    
+    {{>footer}}
+    
+    <!-- Scripts -->
+    {{>jsdependencies}}
+    <script src="js/popper.min.js"></script> <!-- Popper tooltip library for Bootstrap -->
+    <script src="js/bootstrap.min.js"></script> <!-- Bootstrap framework -->
+    <script src="js/jquery.easing.min.js"></script> <!-- jQuery Easing for smooth scrolling between anchors -->
+    <script src="js/swiper.min.js"></script> <!-- Swiper for image and text sliders -->
+    <script src="js/jquery.magnific-popup.js"></script> <!-- Magnific Popup for lightboxes -->
+    <script src="js/validator.min.js"></script> <!-- Validator.js - Bootstrap plugin that validates forms -->
+    <script src="js/scripts.js"></script> <!-- Custom scripts -->
+    <script>
+        let bloodTypes = ["A+","A-","B+","B-","O+","O-","AB+","AB-"];
+        let maharashtraDistricts = [  'Mumbai','Ahmednagar','Akola','Amravati','Aurangabad',
+                             'Beed','Bhandara','Buldhana', 
+                            'Chandrapur','Dhule','Gadchiroli','Gondia','Hingoli','Jalgaon','Jalna','Kolhapur','Latur','Nanded','Nandurbar','Nagpur','Nashik','Osmanabad','Palghar','Parbhani','Pune','Raigad','Ratnagiri','Sangli','Satara','Sindhudurg','Solapur','Thane','Wardha','Washim','Yavatmal'];
+
+        (function prepareForm(){
+            let formElements = document.getElementById("demandForm").elements;
+
+            let stateHTML = document.getElementsByName("state")[0];
+            // states.forEach(state=> stateHTML.innerHTML += `<option>${state}</option>`);
+            stateHTML.innerHTML = `<option id="Maharashtra">Maharashtra</option>`
+
+            let blood = document.getElementsByName("bloodType")[0];
+            bloodTypes.forEach( (bloodString, index) => blood.innerHTML += `<option id="${bloodString}" value="${index}">${bloodString}</option>` );
+            blood.options.namedItem(bloodTypes[blood.getAttribute("data-blood")]).selected = true;
+
+            let districtHTML = document.getElementsByName("district")[0];
+            maharashtraDistricts.forEach(dist => districtHTML.innerHTML += `<option id="${dist}">${dist}</option>`);
+            districtHTML.options.namedItem(districtHTML.getAttribute("data-district")).selected = true;
+        })();
+    </script>
+</body>
+</html>

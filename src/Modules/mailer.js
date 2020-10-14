@@ -59,15 +59,24 @@ const requestBlood = async (donors, demandeeDetails) => {
     donors.people.forEach(donor => {
         let subject = `Blood request from ${demandeeDetails.name}`
 
-        let body = `Hi ${donor.firstName} \n ${demandeeDetails.description} \n Our client, ${demandeeDetails.name} is in need of blood of type ${demandeeDetails.bloodType} \n Your blood is compatible to be donated to him, Please take a step and make someone's day :)`
+        let body = `Hi ${donor.firstName}  
+Our client, ${demandeeDetails.name} is in need of blood of type ${demandeeDetails.bloodType}  
+Your blood is compatible to be donated to him, Please take a step and save someone's life :) 
+Details of needie:  
+Name: ${demandeeDetails.name}, Age: ${demandeeDetails.age}
+Hospital Address: ${demandeeDetails.address}, ${demandeeDetails.state}, ${demandeeDetails.district}
+Contact: ${demandeeDetails.phone} / ${demandeeDetails.whatsapp}(Whatsapp)
+Email: ${demandeeDetails.email}
+Needies words:
+${demandeeDetails.description}  `
 
+        console.log(body);
         try{
-            // await mailto(donor.email, subject, body);
+            mailto(donor.email, subject, body);
         }catch(error){
             throw error;
         }
     });
-    console.log("If you see this, mailer is not enabled !");
 }
 
 

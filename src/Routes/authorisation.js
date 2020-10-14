@@ -24,10 +24,10 @@ const picMulter = multer({
 // Signup and login page 
 router.get("/login", (req,res)=>{
   res.render('login.hbs')
-})
+});
 router.get("/signup", (req,res)=>{
     res.render('signup.hbs')
-})
+});
 
 
 // Signup API pre Signup
@@ -166,7 +166,17 @@ router.post("/auth/login", async (req,res)=>{
       res.send('Unable to login');
   }
 });
-
+router.get("/auth/logout", auth(), async(req,res)=>{
+  try{
+    req.user.tokens = req.user.tokens.filter((token)=>{
+        return token.token !== req.token;
+    });
+    await req.user.save();
+    res.status(200).redirect('/');
+  }catch(e){
+    res.status(501).send('Something went wrong! <a href="/">Home Page</a>');
+  }
+})
 
 
 

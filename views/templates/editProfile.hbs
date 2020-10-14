@@ -41,11 +41,11 @@
 						<br>
 					</div>
 					<div class="partition">
-						<input placeholder="First name" type="text" name="firstName" value="{{user.firstName}}"> 
-						<input placeholder="Last name"  type="text" name="lastName" value="{{user.lastName}}">
+						<input placeholder="First name" type="text" name="firstName" value="{{user.firstName}}" required> 
+						<input placeholder="Last name"  type="text" name="lastName" value="{{user.lastName}}" required>
 					</div>
 					<div class="partition">
-						<span>Age: <input type="number" class="shorterInputs" min="1" max="150" name="age" value="{{user.age}}"></span>
+						<span>Age: <input type="number" class="shorterInputs" min="1" max="150" name="age" value="{{user.age}}" required></span>
 						<span>Sex: <select class="shorterInputs" name="sex" data-sex="{{user.sex}}">
 								<option value="0">Male</option>
 								<option value="1">Female</option>
@@ -57,7 +57,7 @@
 						</span>
 					</div>
 					<div class="partition">
-						<span><i class="fa fa-phone" aria-hidden="true"></i><input type="number" placeholder="Phone No." name="phone" value="{{user.phone}}"></span>
+						<span><i class="fa fa-phone" aria-hidden="true"></i><input type="number" placeholder="Phone No." name="phone" value="{{user.phone}}" required></span>
 						<span><i class="fa fa-whatsapp" aria-hidden="true"></i><input type="number" placeholder="Whatsapp No." name="whatsapp" value="{{user.whatsapp}}"></span>
 					</div>
 					<div class="partition"> 
@@ -69,8 +69,8 @@
 						<span>District:<select class="district" name="district" data-district="{{user.address.district}}"></select></span>
 					</div>
 					<div class="partition">
-						<input type="text" style="width: 700px;" placeholder="Local address" class="bigFields" name="localAddress" value="{{user.address.localAddress}}">
-						<input type="number" placeholder="Pin code" name="pin" value="{{user.address.pin}}">
+						<input type="text" style="width: 700px;" placeholder="Local address" class="bigFields" name="localAddress" value="{{user.address.localAddress}}" required>
+						<input type="number" placeholder="Pin code" name="pin" value="{{user.address.pin}}" required>
 					</div>
 					<div class="partition">
 						<span>No. of Notable Diseases/Deficiency: <input type="number" class="shorterInputs" name="diseaseCount" value="{{user.diseaseCount}}">

@@ -7,17 +7,30 @@ const getCompatibles = require('./../Modules/bloodCompatibility');
 const {requestBlood} = require('./../Modules/mailer');
 
 
-router.get('/demand', auth(), (req,res)=>{
-    res.render('request.hbs');
+router.get("/request", (req,res)=>{
+    let personalisation = {};
+    if(req.isPersonalised)
+        personalisation = {
+            loggedIn: true,
+            name: req.user.firstName,
+            firstName: req.user.firstName,
+            lastName: req.user.lastName,
+            email: req.user.email,
+            phone: req.user.phone,
+            whatsapp: req.user.whatsapp,
+            bloodType: req.user.bloodType,
+            district: req.user.district
+        }
+    return res.render("request.hbs", personalisation);
 })
 
+let bloodTypes = ["A+","A-","B+","B-","O+","O-","AB+","AB-"];
 router.post('/demandBlood', auth(), async (req, res)=>{
-
     // Process the needs
     const demand = {
         ...req.body,
     };
-    
+    demand.bloodType = Number.parseInt(demand.bloodType);
     let compatibleTypes = await getCompatibles(demand.bloodType);
     // Prepare this array for $or inside $filter:
         // "$or" : [
@@ -48,10 +61,11 @@ router.post('/demandBlood', auth(), async (req, res)=>{
 
     let compatibleDonors = dist[0].bloods;
 
-
-    compatibleDonors.forEach(people => requestBlood(people, req.body));
+    req.body.bloodType = bloodTypes[req.body.bloodType];
 
     // Mail everyone
+    compatibleDonors.forEach(people => requestBlood(people, req.body));
+
 
 })
 

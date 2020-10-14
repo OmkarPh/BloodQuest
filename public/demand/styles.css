@@ -1,0 +1,18 @@
+#demandForm{
+    align-content: space-between;
+}
+#demandForm input, #demandForm select{
+    font-size: 15px;
+    outline: none;
+    border: 0px;
+    border-bottom: 2px solid blueviolet;
+    border-radius: 5px;
+    padding-right: 25px;
+    margin-bottom: 4px;
+    margin-right: 15px;
+    margin-left: 4px;
+    margin-bottom: 20px;
+}
+#demandForm .longerInputs{
+    width: 300px;
+}

@@ -12,20 +12,20 @@
         <!-- Google / Search Engine Tags -->
         <meta itemprop="name" content="Blood Quest - Seamless way to link blood donors and needies ">
         <meta itemprop="description" content="Blood Quest is an initiative to encourage blood donation and form a notified link between volunteers and patients in need of blood.">
-        <meta itemprop="image" content="https://omkarph.herokuapp.com/logoMetaBigB.png">
+        <meta itemprop="image" content="https://bloodquest.herokuapp.com/logoMetaBigB.png">
 
         <!-- Facebook Meta Tags -->
         <meta property="og:url" content="https://bloodquest.herokuapp.com">
         <meta property="og:type" content="website">
         <meta property="og:title" content="Blood Quest - Seamless way to link blood donors and needies ">
         <meta property="og:description" content="Blood Quest is an initiative to encourage blood donation and form a notified link between volunteers and patients in need of blood.">
-        <meta property="og:image" content="https://omkarph.herokuapp.com/images/logoMetaBigB.png">
+        <meta property="og:image" content="https://bloodquest.herokuapp.com/images/logoMetaBigB.png">
 
         <!-- Twitter Meta Tags -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Blood Quest - Seamless way to link blood donors and needies ">
         <meta name="twitter:description" content="Blood Quest is an initiative to encourage blood donation and form a notified link between volunteers and patients in need of blood.">
-        <meta name="twitter:image" content="https://omkarph.herokuapp.com/images/logoMetaBigB.png">
+        <meta name="twitter:image" content="https://bloodquest.herokuapp.com/images/logoMetaBigB.png">
 
 
 
@@ -46,7 +46,7 @@
     </style>
 </head>
 <body data-spy="scroll" data-target=".fixed-top">
-    
+    {{>header}}
     <!-- Preloader -->
 	<div class="spinner-wrapper">
         <div class="spinner">
@@ -57,54 +57,6 @@
     </div>
     <!-- end of preloader -->
     
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
-        <!-- Text Logo - Use this if you don't have a graphic logo -->
-        <!-- <a class="navbar-brand logo-text page-scroll" href="index.html">Evolo</a> -->
-
-        <!-- Image Logo -->
-        <a class="navbar-brand logo-image" href="index.html"><img src="images/logo20kb.png" alt="alternative" id="bqIcon"></a>
-        <span class="navbar-brand.logo-text"> <span id="bqText">Blood Quest</span> <br> You're always somebody's type</span>
-        <!-- Mobile Menu Toggle Button -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-awesome fas fa-bars"></span>
-            <span class="navbar-toggler-awesome fas fa-times"></span>
-        </button>
-        <!-- end of mobile menu toggle button -->
-
-        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link page-scroll" href="#header">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link page-scroll" href="/demand">Request Blood </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link page-scroll" href="#pricing">Support us <br>financially</a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="nav-link page-scroll" href="#contact">Contact us</a>
-                </li>
-                      
-                <li class="nav-item">
-                    <a class="nav-link page-scroll" href="#about">About</a>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <div id="signLogBtn">
-                        <a class="nav-link page-scroll wildcadLinks" href="/signup" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">Signup</a>
-                        <a class="nav-link page-scroll wildcadLinks" href="/login" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">Login</a>
-                    </div>
-                </li>
-
-            </ul>
-        </div>
-    </nav> <!-- end of navbar -->
-    <!-- end of navigation -->
 
 
     <!-- Header -->
@@ -118,7 +70,7 @@
                             <p class="p-large">A single gesture can create a million smiles</p>
                             <a class="btn-solid-lg page-scroll" href="https://www.google.co.in/maps/search/blood+donation+centers+near+me/" target="_blank">DISCOVER NEAREST DONATION CENTERS</a>
                             <br></br>
-                            <a class="btn-solid-lg" href="/demand">REQUEST BLOOD from our VOLUNTEERS</a>
+                            <a class="btn-solid-lg" href="/request">REQUEST BLOOD from our VOLUNTEERS</a>
                         </div> <!-- end of text-container -->
                     </div> <!-- end of col -->
                     <div class="col-lg-6">
@@ -141,7 +93,7 @@
                     <h2>Can't donate blood due to Health issues?</h2>
                     <p class="p-heading p-large">Support us financially, Your donations help maintenance of this tool and a portion of it goes to NGOs & blood bank managements
                     <br><br>
-                    <a class="btn-solid-lg" href="/demand">Donate now..</a>
+                    <a class="btn-solid-lg" href="/donateMoney">Donate now..</a>
                     </p>
                 </div> <!-- end of col -->
             </div> <!-- end of row -->
@@ -149,54 +101,6 @@
     </div> <!-- end of cards-2 -->
     <!-- end of pricing -->
 
-    <!-- Customers
-    <div class="slider-1">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h5>Trusted By</h5>
-                    
-                    <div class="slider-container">
-                        <div class="swiper-container image-slider">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="image-container">
-                                        <img class="img-responsive" src="images/customer-logo-1.png" alt="alternative">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="image-container">
-                                        <img class="img-responsive" src="images/customer-logo-2.png" alt="alternative">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="image-container">
-                                        <img class="img-responsive" src="images/customer-logo-3.png" alt="alternative">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="image-container">
-                                        <img class="img-responsive" src="images/customer-logo-4.png" alt="alternative">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="image-container">
-                                        <img class="img-responsive" src="images/customer-logo-5.png" alt="alternative">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="image-container">
-                                        <img class="img-responsive" src="images/customer-logo-6.png" alt="alternative">
-                                    </div>
-                                </div>
-                            </div>
-                        </div> 
-                    </div> 
-                </div> 
-            </div> 
-        </div> 
-    </div> 
-    end of customers -->
 
     <!-- Details 2 -->
     <div class="basic-2">
@@ -218,6 +122,10 @@
                             <li class="media">
                                 <i class="fas fa-check"></i>
                                 <div class="media-body">Maintains healthy heart & liver</div>
+                            </li>
+                            <li class="media">
+                                <i class="fas fa-check"></i>
+                                <div class="media-body">Lowers the risk of cancer</div>
                             </li>
                             <li class="media">
                                 <i class="fas fa-check"></i>
@@ -254,211 +162,9 @@
     <!-- end of details 1 -->
 
 
-    <!-- Details Lightboxes -->
-    <!-- Details Lightbox 1 -->
-	<div id="details-lightbox-1" class="lightbox-basic zoom-anim-dialog mfp-hide">
-        <div class="container">
-            <div class="row">
-                <button title="Close (Esc)" type="button" class="mfp-close x-button">×</button>
-                <div class="col-lg-8">
-                    <div class="image-container">
-                        <img class="img-fluid" src="images/details-lightbox-1.svg" alt="alternative">
-                    </div> <!-- end of image-container -->
-                </div> <!-- end of col -->
-                <div class="col-lg-4">
-                    <h3>Design And Plan</h3>
-                    <hr>
-                    <h5>Core feature</h5>
-                    <p>The emailing module basically will speed up your email marketing operations while offering more subscriber control.</p>
-                    <p>Do you need to build lists for your email campaigns? It just got easier with Evolo.</p>
-                    <ul class="list-unstyled li-space-lg">
-                        <li class="media">
-                            <i class="fas fa-check"></i><div class="media-body">List building framework</div>
-                        </li>
-                        <li class="media">
-                            <i class="fas fa-check"></i><div class="media-body">Easy database browsing</div>
-                        </li>
-                        <li class="media">
-                            <i class="fas fa-check"></i><div class="media-body">User administration</div>
-                        </li>
-                        <li class="media">
-                            <i class="fas fa-check"></i><div class="media-body">Automate user signup</div>
-                        </li>
-                        <li class="media">
-                            <i class="fas fa-check"></i><div class="media-body">Quick formatting tools</div>
-                        </li>
-                        <li class="media">
-                            <i class="fas fa-check"></i><div class="media-body">Fast email checking</div>
-                        </li>
-                    </ul>
-                    <a class="btn-solid-reg mfp-close page-scroll" href="#request">REQUEST</a> <a class="btn-outline-reg mfp-close as-button" href="#screenshots">BACK</a>
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-        </div> <!-- end of container -->
-    </div> <!-- end of lightbox-basic -->
-    <!-- end of details lightbox 1 -->
-
-
-
-
-    <!-- Video
-    <div class="basic-3">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2>Check Out The Video</h2>
-                </div> 
-            </div> 
-            <div class="row">
-                <div class="col-lg-12">
-                    
-                    
-                    <div class="image-container">
-                        <div class="video-wrapper">
-                            <a class="popup-youtube" href="https://www.youtube.com/watch?v=fLCjQJCekTs" data-effect="fadeIn">
-                                <img class="img-fluid" src="images/video-frame.svg" alt="alternative">
-                                <span class="video-play-button">
-                                    <span></span>
-                                </span>
-                            </a>
-                        </div> 
-                    </div> 
-                    
-
-                    <p>This video will show you a case study for one of our <strong>Major Customers</strong> and will help you understand why your startup needs Evolo in this highly competitive market</p>
-                </div> 
-            </div> 
-        </div> 
-    </div>-->
     
-
-    <!-- Contact -->
-    <div id="contact" class="form-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2>Contact Information</h2>
-                    <ul class="list-unstyled li-space-lg">
-                        <li class="address">Don't hesitate to give us a call or send us a contact form message</li>
-                        <li><i class="fas fa-map-marker-alt"></i>Malad, Mumbai, India</li>
-                        <li><i class="fab fa-whatsapp"></i><a class="turquoise" href="https://wa.me/917045270840">+91 70452 70840</a></li>
-                        <li><i class="fas fa-envelope"></i><a class="turquoise" href="mailto:omkarphansopkar@gmail.com">omkarphansopkar@gmail.com</a></li>
-                    </ul>
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="map-responsive">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30146.07609012724!2d72.8515168478183!3d19.18386441965503!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b5ce2b93d7db%3A0x879a5e5cfe9bb7a8!2sMalad%2C%20Malad%20East%2C%20Mumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1602573866971!5m2!1sen!2sin" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false"></iframe>
-                    </div>
-                </div> <!-- end of col -->
-                <div class="col-lg-6">
-                    
-                    <!-- Contact Form -->
-                    <form id="contactForm" data-toggle="validator" data-focus="false">
-                        <div class="form-group">
-                            <input type="text" class="form-control-input" id="cname" name="name" required>
-                            <label class="label-control" for="cname">Name</label>
-                            <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" class="form-control-input" id="cemail" name="email" required>
-                            <label class="label-control" for="cemail">Email</label>
-                            <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="form-group">
-                            <textarea class="form-control-textarea" id="cmessage" name="message" required style="min-height: 100px; line-height: normal;" placeholder="Please don't include emojis here :)"></textarea>
-                            <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="form-control-submit-button" style="outline: none;">SUBMIT MESSAGE</button>
-                        </div>
-                        <div class="form-message">
-                            <div id="cmsgSubmit" class="h3 text-center hidden"></div>
-                        </div>
-                    </form>
-                    <!-- end of contact form -->
-
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-        </div> <!-- end of container -->
-    </div> <!-- end of form-2 -->
-    <!-- end of contact -->
-
-
-    <!-- Footer -->
-    <div class="footer" id="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="footer-col">
-                        <h4>About Blood Quest</h4>
-                        <p>Blood Quest is an initiative to encourage blood donation and form a notified link between volunteers and patients in need of blood.</p>
-                    </div>
-                </div> <!-- end of col -->
-                <div class="col-md-4">
-                    <div class="footer-col middle">
-                        <h4>Project author/maintainer</h4>
-                        <ul class="list-unstyled li-space-lg">
-                            <li class="media">
-                                <div class="media-body" style="font-size: larger;">Omkar Phansopkar</div>
-                            </li><br>
-                            <li>
-                                <a href="https://github.com/OmkarPh/bloodQuest" target="_blank" 
-                                style="color: black; font-size:larger; text-decoration: none;">
-                                <i class="fab fa-github"></i> <u>View this project on github</u> <i class="fas fa-location-arrow" style="font-size:large"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div> <!-- end of col -->
-                <div class="col-md-4">
-                    <div class="footer-col last">
-                        <h4>Social Media</h4>
-                        <span class="fa-stack">
-                            <a href="https://github.com/OmkarPh">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fab fa-github fa-stack-1x"></i>
-                            </a>
-                        </span>
-                        <span class="fa-stack">
-                            <a href="https://in.linkedin.com/in/omkarphansopkar">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fab fa-linkedin-in fa-stack-1x"></i>
-                            </a>
-                        </span>
-                        <span class="fa-stack">
-                            <a href="https://www.facebook.com/omkar.phansopkar">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fab fa-facebook-f fa-stack-1x"></i>
-                            </a>
-                        </span>
-                        <span class="fa-stack">
-                            <a href="https://twitter.com/omkarphansopkar/">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fab fa-twitter fa-stack-1x"></i>
-                            </a>
-                        </span>
-                    </div> 
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-        </div> <!-- end of container -->
-    </div> <!-- end of footer -->  
-    <!-- end of footer -->
-
-
-    <!-- Copyright -->
-    <div class="copyright">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <p class="p-small">Copyright © 2020 <a href="https://inovatik.com">Inovatik</a> - All rights reserved</p>
-                </div> <!-- end of col -->
-            </div> <!-- enf of row -->
-        </div> <!-- end of container -->
-    </div> <!-- end of copyright --> 
-    <!-- end of copyright -->
+    {{>footer}}
     
-    	
     <!-- Scripts -->
     {{>jsdependencies}}
     <script src="js/popper.min.js"></script> <!-- Popper tooltip library for Bootstrap -->
