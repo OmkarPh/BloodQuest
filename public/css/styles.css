@@ -1832,6 +1832,10 @@ a:hover.back-to-top {
 	.navbar-custom.top-nav-collapse .nav-item .nav-link.active {
 		color: #008799;
 	}
+	.navbar-custom.top-nav-collapse .nav-item .wildcadLinks:hover,
+	.navbar-custom.top-nav-collapse .nav-item .wildcadLinks.active{
+		color: #fff;
+	}
 
 	.navbar-custom .dropdown-menu {
 		padding-top: 1rem;

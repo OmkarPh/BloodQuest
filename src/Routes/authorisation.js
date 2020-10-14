@@ -23,7 +23,7 @@ const picMulter = multer({
 
 // Signup and login page 
 router.get("/login", (req,res)=>{
-  res.render('signLog.hbs')
+  res.render('login.hbs')
 })
 router.get("/signup", (req,res)=>{
     res.render('signup.hbs')
