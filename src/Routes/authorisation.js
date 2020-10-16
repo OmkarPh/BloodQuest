@@ -89,8 +89,14 @@ router.get("/editProfile", auth({dontRedirect: true}), async(req,res)=>{
 
 
 router.post("/auth/saveProfile", auth({dontRedirect: true}), picMulter.single('newProfilePicture'), async(req,res)=>{
-
-  stringToArrayConversions.forEach(key => req.body[key] = parseInt(req.body[key]));
+  console.log(req.body);
+  stringToArrayConversions.forEach(key =>{
+    if(req.body[key])
+      req.body[key] = parseInt(req.body[key]);
+    else 
+      delete req.body[key];
+  });
+  console.log(req.body);
   req.body.address={
     country: req.body.country,
     state: req.body.state,
@@ -99,6 +105,7 @@ router.post("/auth/saveProfile", auth({dontRedirect: true}), picMulter.single('n
     localAddress: req.body.localAddress
   };
   req.body.diseases = req.body.diseaseString.split(",").map(val => val.trim());; 
+  console.log(req.body);
 
   let isDistrictModified = req.user.address.district !== req.body.address.district;
   let previousDistrict = req.user.address.district;

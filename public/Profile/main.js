@@ -106,11 +106,17 @@ let maharashtraDistricts = [  'Mumbai','Ahmednagar','Akola','Amravati','Aurangab
 
     let blood = document.getElementsByName("bloodType")[0];
     bloodTypes.forEach( (bloodString, index) => blood.innerHTML += `<option id="${bloodString}" value="${index}">${bloodString}</option>` );
-    blood.options.namedItem(bloodTypes[blood.getAttribute("data-blood")]).selected = true;
 
     let districtHTML = document.getElementsByName("district")[0];
-    maharashtraDistricts.forEach(dist=> districtHTML.innerHTML += `<option id="${dist}">${dist}</option>`);
-    districtHTML.options.namedItem(districtHTML.getAttribute("data-district")).selected = true;
+    maharashtraDistricts.forEach(dist => districtHTML.innerHTML += `<option id="${dist}">${dist}</option>`);
+
+
+    if(blood.getAttribute("data-blood") != -1 && blood.getAttribute("data-blood") && blood.getAttribute("data-blood") != "")
+        blood.options.namedItem(bloodTypes[blood.getAttribute("data-blood")]).selected = true;
+        
+    if(districtHTML.getAttribute("data-district") != -1 && districtHTML.getAttribute("data-district") && districtHTML.getAttribute("data-district") != "")
+        districtHTML.options.namedItem(districtHTML.getAttribute("data-district")).selected = true;
+
 })();
 
 

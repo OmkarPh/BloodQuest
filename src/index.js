@@ -92,8 +92,8 @@ app.post("/contact", async(req,res)=>{
 
 
 app.get('/pageNotFound', (req,res)=>{
-  res.send("<center><h1>Page not found !</h1></center>")
+  res.status(404).render("pageNotFound.hbs")
 });
 app.get('*', (req,res)=>{
-  res.send("<center><h1>Page not found !</h1></center>")
+  res.status(404).render("pageNotFound.hbs")
 });

@@ -6,8 +6,11 @@
         <!-- <a class="navbar-brand logo-text page-scroll" href="index.html">Evolo</a> -->
 
         <!-- Image Logo -->
-        <a class="navbar-brand logo-image" href="index.html"><img src="images/logo20kb.png" alt="alternative" id="bqIcon"></a>
-        <span class="navbar-brand.logo-text"> <span id="bqText">Blood Quest</span> <br> You're always somebody's type</span>
+        <a class="navbar-brand logo-image" href="/"><img src="images/logo20kb.png" alt="alternative" id="bqIcon"></a> 
+        <span class="navbar-brand.logo-text">
+            <a class="navbar-brand logo-image" href="/"><span id="bqText">Blood Quest</span></a><br>
+            You're always somebody's type
+        </span>
         <!-- Mobile Menu Toggle Button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-awesome fas fa-bars"></span>
@@ -18,14 +21,14 @@
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link page-scroll" href="#header">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link page-scroll" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link page-scroll" href="/request">Request Blood </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link page-scroll" href="/donateMoney">Support us <br>financially</a>
+                    <a class="nav-link page-scroll" href="/donateMoney">Support us financially</a>
                 </li>
                 
                 <li class="nav-item">
@@ -37,11 +40,21 @@
                 </li>
 
                 {{#if loggedIn}}
-                    <li class="nav-item">
-                        <div id="signLogBtn">
-                            <a class="nav-link page-scroll wildcadLinks" href="/me" role="button" aria-haspopup="true" aria-expanded="false">Hi {{name}}!</a>
-                        </div>
-                    </li>
+                    {{#if name}}
+                        <li class="nav-item">
+                            <div id="signLogBtn">
+                                <a class="nav-link page-scroll wildcadLinks" href="/me" role="button" aria-haspopup="true" aria-expanded="false">
+                                    Hi {{name}} !&nbsp;
+                                </a>
+                            </div>
+                        </li>
+                    {{else}}
+                        <li class="nav-item">
+                            <div id="signLogBtn">
+                                <a class="nav-link page-scroll wildcadLinks" href="/me" role="button" aria-haspopup="true" aria-expanded="false">Complete Profile</a>
+                            </div>
+                        </li>
+                    {{/if}}
                 {{else}}
                     <li class="nav-item dropdown">
                         <div id="signLogBtn">

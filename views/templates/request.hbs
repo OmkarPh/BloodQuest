@@ -44,6 +44,16 @@
         input:focus, input:hover{
             outline:none;
         }
+        /* Chrome, Safari, Edge, Opera */
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        /* Firefox */
+            input[type=number] {
+            -moz-appearance: textfield;
+        }
     </style>
 </head>
 <body data-spy="scroll" data-target=".fixed-top">
@@ -68,13 +78,10 @@
                         <div class="text-container" style="margin-top: -55px">
                             <h3><span class="turquoise" style="color: #ff0000;">Request blood from our volunteers. </span></h3>
                             <p class="p-large">We will notify all eligible volunteers in your city.</p>
-                            <form action="/demandBlood" method="POST" id="demandForm">
-                                <input type="text" placeholder="Patient's name" name="name" value="{{firstName}} {{lastName}}" required><br>
-                                Patient:
-                                <select name="self">
-                                    <option value="0">Myself</option>
-                                    <option value="1">Relative or friend</option>
-                                </select>
+                            <form action="/demandBlood" method="POST" id="demandForm" onsubmit="return validateRequest()">
+                                <input type="text" placeholder="Patient's name" name="name" value="{{firstName}}{{ lastName}}" required><br>
+                                Age:
+                                <input type="number" name="age", placeholder="Patient's age" value="{{age}}" required>
                                 Blood type required:
                                 <select name="bloodType" data-blood="{{bloodType}}"></select><br>
                                 Address of hospital:
@@ -148,12 +155,27 @@
 
             let blood = document.getElementsByName("bloodType")[0];
             bloodTypes.forEach( (bloodString, index) => blood.innerHTML += `<option id="${bloodString}" value="${index}">${bloodString}</option>` );
-            blood.options.namedItem(bloodTypes[blood.getAttribute("data-blood")]).selected = true;
 
             let districtHTML = document.getElementsByName("district")[0];
             maharashtraDistricts.forEach(dist => districtHTML.innerHTML += `<option id="${dist}">${dist}</option>`);
-            districtHTML.options.namedItem(districtHTML.getAttribute("data-district")).selected = true;
+
+
+            if(blood.getAttribute("data-blood") != -1 && blood.getAttribute("data-blood") && blood.getAttribute("data-blood") != "")
+                blood.options.namedItem(bloodTypes[blood.getAttribute("data-blood")]).selected = true;
+
+            if(districtHTML.getAttribute("data-district") != -1 && districtHTML.getAttribute("data-district") && districtHTML.getAttribute("data-district") != "")
+                districtHTML.options.namedItem(districtHTML.getAttribute("data-district")).selected = true;
         })();
+
+        function validateRequest(){
+            let phoneFieldValue = document.getElementsByName("phone")[0].value;
+            if(phoneFieldValue.length < 10){
+                alert("Enter a valid phone no. with 10 digits");
+                return false;
+            }
+
+            return tru;
+        }
     </script>
 </body>
 </html>

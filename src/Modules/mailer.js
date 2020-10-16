@@ -5,6 +5,7 @@ sgMail.setApiKey(process.env.SEND_GRID_KEY);
 const defaultSubject = "Blood quest admin here !";
 const defaultBody = "Hope you're day is going good. Donate some blood, it might just get better";
 
+// Actual normal mail worker
 const mailto = async (toAddress, subject, body = defaultBody) =>{
     if(!toAddress)
         return;
@@ -22,7 +23,57 @@ const mailto = async (toAddress, subject, body = defaultBody) =>{
     };
 }
 
+// Actual templated mail worker
+const templateMapping = new Map([
+    ['confirmation', process.env.CONFIRMATION_TEMPLATE], 
+    ['request', process.env.REQUEST_TEMPLATE]
+]);
+const templateKeys = Array.from(templateMapping.keys());
+const mailTemplate = async (toAddress, templateType, dynamicTemplateData)=>{
+    if(!toAddress || !templateType || !dynamicTemplateData)
+        return false;
+    if(!templateKeys.includes(templateType))
+        return false;
+    
+    dynamicTemplateData.Sender_Name = "Blood Quest Admin";
+    const msg = {
+      to: toAddress,
+      from: process.env.MY_MAIL_AUTHENTICATED,
+      templateId: templateMapping.get(templateType),
+      dynamicTemplateData
+    };
+    sgMail.send(msg);
+}
 
+
+
+
+
+// Utility for confirmation
+const confirmEmail = async(email, verificationToken)=>{
+    try{
+        let verificationLink = `${process.env.BASE_URL}/auth/verify?token=${verificationToken}`;
+        let denialLink = `${process.env.BASE_URL}/auth/deny?token=${verificationToken}`;
+
+        await mailTemplate(email, 'confirmation', { verificationLink, denialLink } );
+    }catch(error){
+        throw error;
+    }
+}
+
+// Utility for Blood request
+const demandPageLink= `${process.env.BASE_URL}/request`;
+const requestBlood = async (donors, demandeeDetails) => {
+    donors.people.forEach(donor => {
+        try{
+            mailTemplate(donor.email, 'request', { donor, demandeeDetails, demandPageLink} );
+        }catch(error){
+            throw error;
+        }
+    });
+}
+
+// Utility for contact message
 const contactMessage = async(email, name, body) =>{
     try{
         let subjectForMail = `From ${name}(${email}) -BloodQuest contact form`;
@@ -41,43 +92,5 @@ const contactMessage = async(email, name, body) =>{
         console.log("Error in contact me",error);
     }
 }
-// contactMessage("omkarpha@gmail.com", "Random person", "testing body");
-
-const confirmEmail = async(email, verificationToken)=>{
-    try{
-        let subject = "Verify your account at Blood Quest";
-
-        let body = `Verify your account at Blood Quest using this link: \n ${process.env.BASE_URL}/auth/verify?token=${verificationToken}`;
-        await mailto(email, subject, body);
-
-    }catch(error){
-        throw error;
-    }
-}
-
-const requestBlood = async (donors, demandeeDetails) => {
-    donors.people.forEach(donor => {
-        let subject = `Blood request from ${demandeeDetails.name}`
-
-        let body = `Hi ${donor.firstName}  
-Our client, ${demandeeDetails.name} is in need of blood of type ${demandeeDetails.bloodType}  
-Your blood is compatible to be donated to him, Please take a step and save someone's life :) 
-Details of needie:  
-Name: ${demandeeDetails.name}, Age: ${demandeeDetails.age}
-Hospital Address: ${demandeeDetails.address}, ${demandeeDetails.state}, ${demandeeDetails.district}
-Contact: ${demandeeDetails.phone} / ${demandeeDetails.whatsapp}(Whatsapp)
-Email: ${demandeeDetails.email}
-Needies words:
-${demandeeDetails.description}  `
-
-        console.log(body);
-        try{
-            mailto(donor.email, subject, body);
-        }catch(error){
-            throw error;
-        }
-    });
-}
-
 
 module.exports = {mailto, requestBlood, confirmEmail, contactMessage};
