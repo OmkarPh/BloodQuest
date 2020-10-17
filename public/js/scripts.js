@@ -346,6 +346,21 @@
 	/* Removes Long Focus On Buttons */
 	$(".button, a, button").mouseup(function() {
 		$(this).blur();
-	});
+    });
+
+    let profileName= document.getElementById("profilerPersonalised");
+    let profileNameLength = profileName.innerText.length;
+    console.log(profileNameLength);
+    if(screen.width>991 && profileName){
+        if(profileNameLength > 20){
+            if(profileNameLength < 21){
+                profileName.innerText = profileName.innerText.substring(0, profileNameLength-3);
+            }else if(profileNameLength < 23){
+                profileName.innerText = profileName.innerText.substring(3, profileNameLength-3);
+            }else{
+                profileName.innerText = profileName.innerText.substring(3, 17)+"..";
+            }
+        }
+    }
 
 })(jQuery);

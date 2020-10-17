@@ -23,9 +23,13 @@ const picMulter = multer({
 
 // Signup and login page 
 router.get("/login", (req,res)=>{
+  if(req.isPersonalised)
+    res.redirect('/me');
   res.render('login.hbs')
 });
 router.get("/signup", (req,res)=>{
+  if(req.isPersonalised)
+    res.redirect('/me');
     res.render('signup.hbs')
 });
 
@@ -34,6 +38,9 @@ router.get("/signup", (req,res)=>{
 router.post("/auth/signup", async (req,res)=>{
 
   try{
+    let doesAlreadyExist = await User.exists({email: req.body.email});
+    if(doesAlreadyExist)
+      throw new Error("User exists already");
     let newPreUser = new preUser(req.body);
     let token = await newPreUser.generateToken();
     await newPreUser.save();
@@ -41,8 +48,10 @@ router.post("/auth/signup", async (req,res)=>{
     confirmEmail(req.body.email, token);    
   }catch(error){
     if(error.code == 11000)
-      return res.send("User with this email ID already exits");
-    // console.log(error);
+      return res.send("This email is already registered, Email not yet verified<br>Check spam/update/promotion folders if our email is not visible in Inbox !");
+    if(error.message == "User exists already")
+      return res.send('User exists already, <a href="/login">Login here</a>');
+    console.log(error);
     return res.redirect('/pageNotFound');
   }
 
@@ -89,14 +98,12 @@ router.get("/editProfile", auth({dontRedirect: true}), async(req,res)=>{
 
 
 router.post("/auth/saveProfile", auth({dontRedirect: true}), picMulter.single('newProfilePicture'), async(req,res)=>{
-  console.log(req.body);
   stringToArrayConversions.forEach(key =>{
     if(req.body[key])
       req.body[key] = parseInt(req.body[key]);
     else 
       delete req.body[key];
   });
-  console.log(req.body);
   req.body.address={
     country: req.body.country,
     state: req.body.state,
@@ -105,7 +112,6 @@ router.post("/auth/saveProfile", auth({dontRedirect: true}), picMulter.single('n
     localAddress: req.body.localAddress
   };
   req.body.diseases = req.body.diseaseString.split(",").map(val => val.trim());; 
-  console.log(req.body);
 
   let isDistrictModified = req.user.address.district !== req.body.address.district;
   let previousDistrict = req.user.address.district;

@@ -11,6 +11,7 @@
             <a class="navbar-brand logo-image" href="/"><span id="bqText">Blood Quest</span></a><br>
             You're always somebody's type
         </span>
+
         <!-- Mobile Menu Toggle Button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-awesome fas fa-bars"></span>
@@ -43,9 +44,7 @@
                     {{#if name}}
                         <li class="nav-item">
                             <div id="signLogBtn">
-                                <a class="nav-link page-scroll wildcadLinks" href="/me" role="button" aria-haspopup="true" aria-expanded="false">
-                                    Hi {{name}} !&nbsp;
-                                </a>
+                                <a class="nav-link page-scroll wildcadLinks" href="/me" role="button" aria-haspopup="true" aria-expanded="false" id="profilerPersonalised"> Hi {{name}} !&nbsp;</a>
                             </div>
                         </li>
                     {{else}}
