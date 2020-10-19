@@ -349,9 +349,8 @@
     });
 
     let profileName= document.getElementById("profilerPersonalised");
-    let profileNameLength = profileName.innerText.length;
-    console.log(profileNameLength);
     if(screen.width>991 && profileName){
+        let profileNameLength = profileName.innerText.length;
         if(profileNameLength > 20){
             if(profileNameLength < 21){
                 profileName.innerText = profileName.innerText.substring(0, profileNameLength-3);

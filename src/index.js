@@ -7,10 +7,9 @@ const fs = require('fs');
 const path = require('path');
 const hbs = require('hbs');
 const mongoose = require('mongoose');
-if(!process.env.PORT)
+if(process.env.NODE_ENV !== "production")
     require('dotenv').config();
 
-    
 
 // Paths and URLs
 const viewPath = path.join(__dirname,'../views/templates');
@@ -71,7 +70,8 @@ const {mailer, contactMessage} = require('./Modules/mailer');
 // Preparing routers
 const authorisation = require('./Routes/authorisation');
 const demand = require('./Routes/demand');
-app.use(authorisation, demand);
+const donation = require('./Routes/donation');
+app.use(authorisation, demand, donation);
 
 
 
