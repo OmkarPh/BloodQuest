@@ -3,7 +3,10 @@ const router = express.Router();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 router.get('/donateMoney', (req,res)=>{
-    res.render('donate.hbs', {stripePublicKey: process.env.STRIPE_PUBLIC_KEY});
+    let personalisation = {};
+    if(req.isPersonalised)
+        personalisation= {email: req.user.email, name: req.user.firstName};
+    res.render('donate.hbs', {...personalisation, stripePublicKey: process.env.STRIPE_PUBLIC_KEY});
 })
 
 router.post('/processPayment', (req,res)=>{

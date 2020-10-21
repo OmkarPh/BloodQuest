@@ -43,15 +43,26 @@
         input:focus, input:hover{
             outline:none;
         }
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+        -moz-appearance: textfield;
+        }
     </style>
-    <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script src="https://checkout.stripe.com/checkout.js" data-currency="inr"></script>
     <script type="text/javascript" defer>
         let donorName = "{{name}}";
         const stripePublicKey = "{{stripePublicKey}}";
         // console.log("Our public key for stripe: stripePublicKey",stripePublicKey);
         let stripeHandler = StripeCheckout.configure({
             key: stripePublicKey,
-            locale: 'en',
+            locale: 'auto',
             token: function(token){
                 console.log("Received following token");
                 console.log(token);
@@ -77,12 +88,19 @@
             }
         });
         
-        let donationAmount = 5 * 100;   // 500 cents i.e. 5 $
+        // let donationAmount = 5 * 100;   // 500 cents i.e. 5 $
+
 
         function processDonation(){
+            let donationAmount = document.getElementById("donationAmount").value;
+            let donorEmail = document.getElementById("donorEmail").value;
+            let donorName = document.getElementById("donorName").value;
+            console.log({donationAmount,donorEmail,donorName})
+            
             stripeHandler.open({
                 amount: donationAmount
             });
+            return false;
         }
     </script>
 </head>
@@ -106,14 +124,16 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">
-                        <div class="text-container">
-                            <h1><span class="turquoise">Support us financially,</span></h1>
+                        <form class="text-container" onsubmit="return processDonation();">
+                            <h1><span class="turquoise" id="supportFinancialText">Support us financially,</span></h1>
                             <p class="p-large">Your donations help maintenance of this tool and a portion of it goes to NGOs & blood bank managements</p>
-                            <input type="number" max="1000" id="donationAmount">
-                            <a class="btn-solid-lg page-scroll" href="#contact"
-                            onClick="processDonation(); return false;" >Proceed</a>
+                            <input type="email"  id="donorEmail" placeholder="Your email.." required 
+                            value="{{email}}">
+                            <input type="text" maxlength="20" minlength="2" id="donorName" placeholder="Your name.." required value="{{name}}"><br>
+                            Donation (in ₹)<input type="number" max="1000" id="donationAmount" required>
+                            <input class="btn-solid-lg page-scroll" type="submit" title="Proceed"              onClick="processDonation(); return false;" >
                             <br></br>
-                        </div> <!-- end of text-container -->
+                        </form> <!-- end of text-container -->
                     </div> <!-- end of col -->
                     <div class="col-lg-6">
                         <div class="image-container">
