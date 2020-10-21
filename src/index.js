@@ -90,7 +90,9 @@ app.post("/contact", async(req,res)=>{
 
 
 
-
+app.get('/message',(req,res)=>{
+  res.render("message",req.query);
+})
 app.get('/pageNotFound', (req,res)=>{
   res.status(404).render("pageNotFound.hbs")
 });

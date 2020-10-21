@@ -34,9 +34,13 @@ router.get("/signup", (req,res)=>{
 });
 
 
-// Signup API pre Signup
-router.post("/auth/signup", async (req,res)=>{
 
+// Signup API pre Signup
+let confirmationTitle = "Confirm your account by the link sent to your email !";
+let confirmationDescription = "Check the spam/update/social folder, if email is not visible in inbox";
+let existTitle = ""
+
+router.post("/auth/signup", async (req,res)=>{
   try{
     let doesAlreadyExist = await User.exists({email: req.body.email});
     if(doesAlreadyExist)
@@ -44,13 +48,15 @@ router.post("/auth/signup", async (req,res)=>{
     let newPreUser = new preUser(req.body);
     let token = await newPreUser.generateToken();
     await newPreUser.save();
-    res.status(400).send("Confirm your account by the link sent to your email !<br> Check the spam folder, if email is not visible in inbox");
+    res.redirect(`/message?title=${confirmationTitle}&description=${confirmationDescription}`);
     confirmEmail(req.body.email, token);    
   }catch(error){
     if(error.code == 11000)
-      return res.send("This email is already registered, Email not yet verified<br>Check spam/update/promotion folders if our email is not visible in Inbox !");
+      return res.redirect(`/message?title=This email is already registered, Email not yet verified&description=Check spam/update/promotion folders if our email is not visible in Inbox !`)();
+
     if(error.message == "User exists already")
-      return res.send('User exists already, <a href="/login">Login here</a>');
+      return res.redirect('/message?title=User exists already&linkHref=/login"&linkTitle');
+
     console.log(error);
     return res.redirect('/pageNotFound');
   }
@@ -70,13 +76,13 @@ router.get('/auth/verify', async (req,res)=>{
     await newUser.save();
 
     console.log("Created temp user ", newUser.firstName, newUser.email);
-
-    res.send('Confirmed the email, <a href="/login">login here</a>');
+    
+    res.redirect('/message?title=Confirmed the email&linkHref=/login&linkTitle=Login here');
 
     preUser.findByIdAndDelete(initUser._id, ()=>{});
   }catch(error){
     if(error.code == 11000)
-      return res.send('Email already confirmed! <a href="/login">login here</a>');
+      res.redirect('/message?title=Email already confirmed!&linkHref=/login&linkTitle=login here');
     console.log(error);
     return res.redirect('/pageNotFound');
   }
@@ -91,7 +97,7 @@ router.get("/editProfile", auth({dontRedirect: true}), async(req,res)=>{
     req.user.sex = 1;
     res.render("editProfile.hbs",{message, user: req.user, diseaseString: req.user.diseases.join(", ")});
   }catch(error){
-      res.status(307).redirect('/login');
+      res.redirect('/login');
   }
 
 });
@@ -159,7 +165,7 @@ router.post("/auth/saveProfile", auth({dontRedirect: true}), picMulter.single('n
       }
     }catch(error){
       console.log(error)
-      if(!res.headersSent) res.status(500).send("Something went wrong 500");
+      if(!res.headersSent) res.redirect("/message?title=Something went wrong 500");
       console.log('Something went really wrong !');
     }
 });
@@ -174,9 +180,9 @@ router.post("/auth/login", async (req,res)=>{
     res.redirect('/me');
   }catch(error){
     if(error.message == "No account found for this email !")
-      res.send('No account found, <a href="/signup">signup instead</a>');
+      res.redirect('/message?title=No account found&linkHref=/signup&linkTitle=Signup instead');
     else
-      res.send('Unable to login');
+      res.redirect('/message?title=Unable to login');
   }
 });
 router.get("/auth/logout", auth(), async(req,res)=>{
@@ -185,9 +191,9 @@ router.get("/auth/logout", auth(), async(req,res)=>{
         return token.token !== req.token;
     });
     await req.user.save();
-    res.status(200).redirect('/');
+    res.redirect('/');
   }catch(e){
-    res.status(501).send('Something went wrong! <a href="/">Home Page</a>');
+    res.redirect('/message?title=Something went wrong!&linkHref=/&linkTitle=Home Page');
   }
 })
 

@@ -55,58 +55,6 @@
         -moz-appearance: textfield;
         }
     </style>
-    <script src="https://checkout.stripe.com/checkout.js"></script>
-    <script type="text/javascript" defer>
-        let donorName = "{{name}}";
-        let donationAmount = 100;
-        const stripePublicKey = "{{stripePublicKey}}";
-
-        let stripeHandler = StripeCheckout.configure({
-            key: stripePublicKey,
-            locale: 'en',
-            currency: 'inr',
-            token: function(token){
-                console.log("Received following token");
-                console.log(token);
-                fetch("/processPayment", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        donationAmount,
-                        stripeTokenId: token.id,
-                        donorName,
-                        email: token.email
-                    })
-                }).then((res)=>{
-                    return res.json();
-                }).then((data)=>{
-                    window.location = "/message?title=Thanks for your support&description=Check your email for details.";
-                }).catch((err)=>{
-                    console.error(err);
-                    alert("Something went wrong while receiving payment !");
-                })
-            }
-        });
-        
-
-
-        function processDonation(){
-            donationAmount = document.getElementById("donationAmount").value;
-            donationAmount = parseFloat(donationAmount) * 100;
-            donorName = document.getElementById("donorName").value;
-            if(!donationAmount || !donorName)
-                return false;
-            console.log({donationAmount,donorName})
-            
-            stripeHandler.open({
-                amount: donationAmount
-            });
-            return false;
-        }
-    </script>
 </head>
 <body data-spy="scroll" data-target=".fixed-top">
     {{>header}}
@@ -129,11 +77,14 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <form class="text-container" onsubmit="return false;">
-                            <h1><span class="turquoise" id="supportFinancialText">Support us financially,</span></h1>
-                            <p class="p-large">Your donations help maintenance of this tool and a portion of it goes to NGOs & blood bank managements</p>
-                            <input type="text" maxlength="20" minlength="2" id="donorName" placeholder="Your name.." required value="{{name}}" width="150px"><br><br>
-                            Donation (in ₹): &nbsp;<input type="number" max="100000" id="donationAmount" required width="30px">
-                            <input class="btn-solid-lg page-scroll" type="submit" title="Proceed" onclick=" processDonation()">
+                            <h1><span class="turquoise" id="supportFinancialText">{{title}}</span></h1>
+                            <p class="p-large">{{description}}</p>
+                            {{#if linkHref}}
+                                <a class="btn-solid-lg page-scroll" type="submit" title="Proceed" 
+                                href="{{linkHref}}">{{linkTitle}}</a>
+                            {{/if}}
+                                <a class="btn-solid-lg page-scroll" type="submit" title="Proceed" 
+                                href="/">Home Page</a>
                             <br></br>
                         </form> <!-- end of text-container -->
                     </div> <!-- end of col -->

@@ -26,7 +26,7 @@ router.get("/request", (req,res)=>{
 })
 
 let bloodTypes = ["A+","A-","B+","B-","O+","O-","AB+","AB-"];
-router.post('/demandBlood', auth(), async (req, res)=>{
+router.post('/demandBlood', async (req, res)=>{
     // Process the needs
     const demand = {
         ...req.body,
@@ -42,7 +42,7 @@ router.post('/demandBlood', auth(), async (req, res)=>{
         return {"$eq": ["$$blood.name", compatible]} 
     });
 
-    res.send("We have sent requests to people with following compatible blood groups "+compatibleTypes+"<br>You have been sent a copy of such email too.");
+    res.redirect("/message?title=We have sent requests to people with compatible blood groups&description=You have been sent a copy of such email too.");
 
     let dist = await District.aggregate([
         {$match: {"name": demand.district}},

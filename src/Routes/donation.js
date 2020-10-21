@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const {thankEmail} = require('./../Modules/mailer');
 
 router.get('/donateMoney', (req,res)=>{
     let personalisation = {};
@@ -19,9 +20,11 @@ router.post('/processPayment', (req,res)=>{
         source: req.body.stripeTokenId,
         currency: 'inr'
     }).then(()=>{
-        console.log(`Transaction successful for donation of Rs. ${amount} from ${req.body.donorName}`);
-        return res.status(200).json({"message":"successful"});
-    }).catch(()=>{
+        console.log(`Transaction successful for donation of Rs. ${amount/100} from ${req.body.donorName}`);
+        res.status(200).json({"message":"successful"});
+        thankEmail(req.body.email, req.body.donorName);
+    }).catch((err)=>{
+        console.log(err)
         console.log(`Something went wrong while receiving donation of Rs. ${amount} from ${req.body.donorName}`);
         return res.status(500).end();
     });

@@ -17,7 +17,7 @@ module.exports = () =>{
             else
                 throw new Error();
         }catch(error){
-            res.status(307).redirect('/sign');
+            res.status(404).redirect('/pageNotFound');
         }
     }
 }

@@ -26,7 +26,8 @@ const mailto = async (toAddress, subject, body = defaultBody) =>{
 // Actual templated mail worker
 const templateMapping = new Map([
     ['confirmation', process.env.CONFIRMATION_TEMPLATE], 
-    ['request', process.env.REQUEST_TEMPLATE]
+    ['request', process.env.REQUEST_TEMPLATE],
+    ['thank', process.env.THANKING_TEMPLATE]
 ]);
 const templateKeys = Array.from(templateMapping.keys());
 const mailTemplate = async (toAddress, templateType, dynamicTemplateData)=>{
@@ -93,4 +94,8 @@ const contactMessage = async(email, name, body) =>{
     }
 }
 
-module.exports = {mailto, requestBlood, confirmEmail, contactMessage};
+// Utility for thanking email
+const thankEmail = async(email, name)=>{
+    mailTemplate(email, 'thank', {name} );
+}
+module.exports = {mailto, requestBlood, confirmEmail, contactMessage, thankEmail};
