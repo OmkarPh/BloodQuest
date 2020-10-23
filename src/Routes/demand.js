@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('./../Middleware/auth');
 const User = require('./../../Models/User');
 const District = require('./../../Models/District');
 const getCompatibles = require('./../Modules/bloodCompatibility');
@@ -10,18 +9,8 @@ const {requestBlood} = require('./../Modules/mailer');
 router.get("/request", (req,res)=>{
     let personalisation = {};
     if(req.isPersonalised)
-        personalisation = {
-            loggedIn: true,
-            name: req.user.firstName,
-            firstName: req.user.firstName,
-            lastName: " "+req.user.lastName,
-            age: req.user.age,
-            email: req.user.email,
-            phone: req.user.phone,
-            whatsapp: req.user.whatsapp,
-            bloodType: req.user.bloodType,
-            district: req.user.district
-        }
+        personalisation = {...req.user._doc, loggedIn: true};
+
     return res.render("request.hbs", personalisation);
 })
 
@@ -32,6 +21,7 @@ router.post('/demandBlood', async (req, res)=>{
         ...req.body,
     };
     demand.bloodType = Number.parseInt(demand.bloodType);
+
     let compatibleTypes = await getCompatibles(demand.bloodType);
     // Prepare this array for $or inside $filter:
         // "$or" : [
@@ -44,7 +34,7 @@ router.post('/demandBlood', async (req, res)=>{
 
     res.redirect("/message?title=We have sent requests to people with compatible blood groups&description=You have been sent a copy of such email too.");
 
-    let dist = await District.aggregate([
+    let districts = await District.aggregate([
         {$match: {"name": demand.district}},
         {$project: {
             bloods: {$filter: {
@@ -56,18 +46,16 @@ router.post('/demandBlood', async (req, res)=>{
             }}
         }}
     ]);
+    let dist = districts[0];
 
-    for(let i=0; i<dist[0].bloods.length; i++)
-        await User.populate(dist[0], {path: "bloods."+i+".people"});
+    for(let i=0; i<dist.bloods.length; i++)
+        await User.populate(dist, {path: "bloods."+i+".people"});
 
-    let compatibleDonors = dist[0].bloods;
-
+    let compatibleDonors = dist.bloods;
     req.body.bloodType = bloodTypes[req.body.bloodType];
 
     // Mail everyone
     compatibleDonors.forEach(people => requestBlood(people, req.body));
-
-
 })
 
 

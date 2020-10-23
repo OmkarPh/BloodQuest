@@ -76,15 +76,11 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">
-                        <form class="text-container" onsubmit="return false;">
-                            <h1><span class="turquoise" id="supportFinancialText">{{title}}</span></h1>
-                            <p class="p-large">{{description}}</p>
-                            {{#if linkHref}}
-                                <a class="btn-solid-lg page-scroll" type="submit" title="Proceed" 
-                                href="{{linkHref}}">{{linkTitle}}</a>
-                            {{/if}}
-                                <a class="btn-solid-lg page-scroll" type="submit" title="Proceed" 
-                                href="/">Home Page</a>
+                        <form class="text-container" method="POST" action="/emailAgain" enctype="application/x-www-form-urlencoded">
+                            <h1><span class="turquoise" id="supportFinancialText">Enter your email, if it exists, you'll receive a link on this id.</span></h1>
+                            <p class="p-large"> Check spam/updates/promotions folder if not found in inbox</p>
+                            <input type="email" name="email" required placeholder="Your email">
+                            <button class="btn-solid-lg page-scroll" type="submit">Send email</button>
                             <br></br>
                         </form> <!-- end of text-container -->
                     </div> <!-- end of col -->

@@ -2,8 +2,21 @@ const request = require('request');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SEND_GRID_KEY);
 
+
+// Default values for email
 const defaultSubject = "Blood quest admin here !";
 const defaultBody = "Hope you're day is going good. Donate some blood, it might just get better";
+
+// Template options
+const templateMapping = new Map([
+    ['confirmation', process.env.CONFIRMATION_TEMPLATE], 
+    ['request', process.env.REQUEST_TEMPLATE],
+    ['thank', process.env.THANKING_TEMPLATE],
+    ['forgot', process.env.FORGOT_PASS_TEMPLATE],
+    ['requestConfirmation', process.env.REQUEST_CONFIRMATION]
+]);
+const templateKeys = Array.from(templateMapping.keys());
+
 
 // Actual normal mail worker
 const mailto = async (toAddress, subject, body = defaultBody) =>{
@@ -24,12 +37,6 @@ const mailto = async (toAddress, subject, body = defaultBody) =>{
 }
 
 // Actual templated mail worker
-const templateMapping = new Map([
-    ['confirmation', process.env.CONFIRMATION_TEMPLATE], 
-    ['request', process.env.REQUEST_TEMPLATE],
-    ['thank', process.env.THANKING_TEMPLATE]
-]);
-const templateKeys = Array.from(templateMapping.keys());
 const mailTemplate = async (toAddress, templateType, dynamicTemplateData)=>{
     if(!toAddress || !templateType || !dynamicTemplateData)
         return false;
@@ -55,7 +62,6 @@ const confirmEmail = async(email, verificationToken)=>{
     try{
         let verificationLink = `${process.env.BASE_URL}/auth/verify?token=${verificationToken}`;
         let denialLink = `${process.env.BASE_URL}/auth/deny?token=${verificationToken}`;
-
         await mailTemplate(email, 'confirmation', { verificationLink, denialLink } );
     }catch(error){
         throw error;
@@ -74,19 +80,28 @@ const requestBlood = async (donors, demandeeDetails) => {
     });
 }
 
+// Utility for forgot password
+const forgotPassword = async (email, forgotToken, name) => {
+    try{
+        let forgotLink = `${process.env.BASE_URL}/auth/resetPass?token=${forgotToken}`;
+        mailTemplate(email, 'forgot', {forgotLink, name});
+    }catch(error){
+        throw error;
+    }
+    
+}
+
 // Utility for contact message
 const contactMessage = async(email, name, body) =>{
     try{
         let subjectForMail = `From ${name}(${email}) -BloodQuest contact form`;
-        let wpMessage = "From: " + name + 
-                    "\n Email: " + email + 
-                    "\n\n " + body;
-        let whatsappUrl = "https://api.callmebot.com/whatsapp.php?phone="+process.env.MY_PHONE+"&text="+wpMessage+"&apikey="+process.env.MSG_KEY;
+        let whatsappMessage = `From ${name} \n Email: ${email} \n\n ${body}`;
+        
+        let whatsappUrl = "https://api.callmebot.com/whatsapp.php?phone="+process.env.MY_PHONE+"&text="+whatsappMessage+"&apikey="+process.env.MSG_KEY;
 
         request.get({url: whatsappUrl, proxy: ''}, (error, response)=>{
             if(error)
                 throw new Error("Couldn't send whatsapp message!");
-            console.log(response.statusCode,response.statusMessage);
         });
         mailto(process.env.MY_MAIL_FOR_CONTACT, subjectForMail, body, ()=>{});
     }catch(error){
@@ -94,8 +109,18 @@ const contactMessage = async(email, name, body) =>{
     }
 }
 
+
 // Utility for thanking email
 const thankEmail = async(email, name)=>{
-    mailTemplate(email, 'thank', {name} );
+    mailTemplate(email, 'thank', {name});
 }
-module.exports = {mailto, requestBlood, confirmEmail, contactMessage, thankEmail};
+
+// Utility for request confirmation
+const requestConfirmation = async (email, templateObject)=>{
+    mailTemplate(email, 'requestConfirmation', templateObject);
+}
+
+module.exports = {  
+    mailto, requestBlood, confirmEmail, contactMessage, 
+    thankEmail, forgotPassword, requestConfirmation
+};

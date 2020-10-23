@@ -46,7 +46,7 @@ hbs.registerPartials(partialsPath);     // Partials path
 
 app.use(maintenance, personalise());
 
-app.listen(port, ()=> console.log("Server started properly."));
+app.listen(port, ()=> console.log("Blood Quest Server up and running properly."));
 
 
 
@@ -58,7 +58,10 @@ mongoose.connect(
       useCreateIndex: true,
       useUnifiedTopology:true
   }
-).catch((err)=>console.log(err));
+).catch((err)=>{
+  console.log("Error in mongoose connection !");
+  console.log(err)
+});
 mongoose.set('useFindAndModify', false);        // Overcoming mongoose deprecation
 
 
@@ -78,21 +81,25 @@ app.use(authorisation, demand, donation);
 app.get("/", (req, res) => {
   let personalisationDetails = {};
   if(req.isPersonalised)
-    personalisationDetails = {loggedIn: true, name: req.user.firstName, email: req.user.email };
+    personalisationDetails = {loggedIn: true, firstName: req.user.firstName, email: req.user.email };
   res.render('', personalisationDetails);
 });
+
+
+
 app.post("/contact", async(req,res)=>{
-  contactMessage(req.body.email, req.body.name, req.body.message, ()=>console.log("Sent"));
+  contactMessage(req.body.email, req.body.name, req.body.message, ()=>console.log("Sent contact message"));
   res.status(200).send("success");
 })
 
-
-
-
-
 app.get('/message',(req,res)=>{
+  if(req.isPersonalised)
+    req.query = {...req.query, loggedIn: true, firstName: req.user.firstName, email: req.user.email };
   res.render("message",req.query);
-})
+});
+
+
+
 app.get('/pageNotFound', (req,res)=>{
   res.status(404).render("pageNotFound.hbs")
 });

@@ -1,20 +1,16 @@
-const jwt = require('jsonwebtoken');
-const User = require('./../../Models/User');
+// req.isPersonalised is set to true and other stuff prepared in personalise middleware itself.
 
 module.exports = () =>{
     return async(req,res,next)=>{
         try{
-            const token = req.cookies.token;
-            const decoded = jwt.verify(token,process.env.JWT_TOKEN_KEY);
-            let user = await User.findOne({_id: decoded._id, 'tokens.token':token});
-            if(!user)
+            if(!req.isPersonalised)
                 throw new Error();
-            req.token = token;
-            req.user = user;
-            console.log(req.user);
-            if(req.user.email == "omkarphansopkar@gmail.com")
+
+            // req.user is already obtained from personalise, if user logged in 
+            if(req.user.email == "omkarphansopkar@gmail.com"){
+                console.log("Admin acitvity detected !");
                 next();
-            else
+            }else
                 throw new Error();
         }catch(error){
             res.status(404).redirect('/pageNotFound');

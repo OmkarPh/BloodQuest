@@ -15,8 +15,7 @@ let compatibleForYou = new Map([
 const getCompatible = async (needyBlood) => {
     if(typeof(needyBlood) == "number")
         needyBlood = bloodTypes[needyBlood];
-    console.log("Needy blood is ", needyBlood);
-    console.log("Compatibles: ", compatibleForYou.get(needyBlood));
+        
     return compatibleForYou.get(needyBlood);
 }
 
