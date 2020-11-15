@@ -38,6 +38,7 @@ const mailto = async (toAddress, subject, body = defaultBody) =>{
 
 // Actual templated mail worker
 const mailTemplate = async (toAddress, templateType, dynamicTemplateData)=>{
+    try{
     if(!toAddress || !templateType || !dynamicTemplateData)
         return false;
     if(!templateKeys.includes(templateType))
@@ -51,6 +52,10 @@ const mailTemplate = async (toAddress, templateType, dynamicTemplateData)=>{
       dynamicTemplateData
     };
     sgMail.send(msg);
+    }catch(err){
+        console.log("Something wrong with mail template sender !");
+        console.log(err);
+    }
 }
 
 
@@ -83,9 +88,10 @@ const requestBlood = async (donors, demandeeDetails) => {
 // Utility for forgot password
 const forgotPassword = async (email, forgotToken, name) => {
     try{
-        let forgotLink = `${process.env.BASE_URL}/auth/resetPass?token=${forgotToken}`;
+        let forgotLink = `${process.env.BASE_URL}/resetPass?token=${forgotToken}`;
         mailTemplate(email, 'forgot', {forgotLink, name});
     }catch(error){
+        console.log("Error in forgot password \n",error);
         throw error;
     }
     
@@ -116,8 +122,14 @@ const thankEmail = async(email, name)=>{
 }
 
 // Utility for request confirmation
-const requestConfirmation = async (email, templateObject)=>{
-    mailTemplate(email, 'requestConfirmation', templateObject);
+const requestConfirmation = async (email, verificationToken)=>{
+    try{
+        let verificationLink = `${process.env.BASE_URL}/auth/verify?token=${verificationToken}`;
+        let denialLink = `${process.env.BASE_URL}/auth/deny?token=${verificationToken}`;
+        await mailTemplate(email, 'requestConfirmation', { verificationLink, denialLink } );
+    }catch(error){
+        throw error;
+    }
 }
 
 module.exports = {  
