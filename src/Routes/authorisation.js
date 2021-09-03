@@ -36,28 +36,34 @@ router.get("/login", (req,res)=>{
     return res.redirect('/me');
   res.render('login.hbs')
 });
+
 router.get("/signup", (req,res)=>{
   if(req.isPersonalised)
     return res.redirect('/me');
   res.render('signup.hbs')
 });
+
 router.get("/forgot", (req,res)=>{
   if(req.isPersonalised)
     return res.redirect('/pageNotFound');
   res.render('forgot.hbs')
 });
+
 router.get('/emailVerification', (req,res)=>{
   if(req.isPersonalised)
     return res.redirect('/pageNotFound');
   res.render('emailAgain.hbs');
 });
+
 router.get("/me", auth(), async (req, res)=>{
     res.render('profile.hbs', {data:req.user, blood: bloodTypes[req.user.bloodType],
       sex: sexes[req.user.sex], diseaseString: req.user.diseases.join(", ")});
 });
+
 router.get('/admin', admin(), async(req,res)=>{
   res.render('admin.hbs');
 });
+
 router.get("/myDP", auth({dontRedirect: true}), async(req,res)=>{
   try{
     await req.user.populate('profilePicID').execPopulate();
@@ -88,14 +94,6 @@ router.get("/editProfile", auth({dontRedirect: true}), async(req,res)=>{
 
 });
 
-
-
-
-
-
-
-
-
 // Login API
 router.post("/auth/login", async (req,res)=>{
   try{
@@ -120,6 +118,7 @@ router.post("/auth/login", async (req,res)=>{
     res.redirect('/message?title=Unable to login');
   }
 });
+
 
 // Logout API
 router.get("/auth/logout", auth(), async(req,res)=>{
@@ -164,8 +163,6 @@ router.post("/auth/signup", async (req,res)=>{
   }
 
 });
-
-
 
 
 // Signup verification

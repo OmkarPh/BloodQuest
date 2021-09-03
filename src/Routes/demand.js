@@ -5,7 +5,6 @@ const District = require('./../../Models/District');
 const getCompatibles = require('./../Modules/bloodCompatibility');
 const {requestBlood} = require('./../Modules/mailer');
 
-
 router.get("/request", (req,res)=>{
     let personalisation = {};
     if(req.isPersonalised)
@@ -57,8 +56,6 @@ router.post('/demandBlood', async (req, res)=>{
     // Mail everyone
     compatibleDonors.forEach(people => requestBlood(people, req.body));
 })
-
-
 
 
 module.exports = router;
